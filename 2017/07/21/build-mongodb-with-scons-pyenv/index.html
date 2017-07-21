@@ -1,3 +1,238 @@
-<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description"><title>build mongodb with scons &amp; pyenv | 刘冲的博客</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/5.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.2/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">build mongodb with scons &amp; pyenv</h1><a id="logo" href="/.">刘冲的博客</a><p class="description"></p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">build mongodb with scons &amp; pyenv</h1><div class="post-meta">Jul 21, 2017<script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><div class="post-content"><p>在使用Scons构建Mongodb的时候，报了个找不到typing包的错误，检查后发现python使用了pyenv下面自己安装的版本，而scons命令却使用了系统的。<br>在构建脚本中，如果执行scons的python版本如果合适的话，就直接使用了：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_python</span><span class="params">(min_version=<span class="params">(<span class="number">2</span>, <span class="number">5</span>)</span>)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">if</span> sys.version_info &gt;= min_version:</div><div class="line">            <span class="keyword">return</span> sys.executable</div><div class="line">    <span class="keyword">except</span> AttributeError:</div><div class="line">        <span class="comment"># In case the version of Python is somehow missing sys.version_info or sys.executable.                                                                                                        </span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    ...此处省略</div></pre></td></tr></table></figure></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="在使用Scons构建Mongodb的时候，报了个找不到typing包的错误，检查后发现python使用了pyenv下面自己安装的版本，而scons命令却使用了系统的。在构建脚本中，如果执行scons的python版本如果合适的话，就直接使用了：123456789def find_python(min_version=(2, 5)):    try:        if sys.version_in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="build mongodb with scons & pyenv">
+<meta property="og:url" content="http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/index.html">
+<meta property="og:site_name" content="刘冲的博客">
+<meta property="og:description" content="在使用Scons构建Mongodb的时候，报了个找不到typing包的错误，检查后发现python使用了pyenv下面自己安装的版本，而scons命令却使用了系统的。在构建脚本中，如果执行scons的python版本如果合适的话，就直接使用了：123456789def find_python(min_version=(2, 5)):    try:        if sys.version_in">
+<meta property="og:updated_time" content="2017-07-21T12:35:55.260Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="build mongodb with scons & pyenv">
+<meta name="twitter:description" content="在使用Scons构建Mongodb的时候，报了个找不到typing包的错误，检查后发现python使用了pyenv下面自己安装的版本，而scons命令却使用了系统的。在构建脚本中，如果执行scons的python版本如果合适的话，就直接使用了：123456789def find_python(min_version=(2, 5)):    try:        if sys.version_in">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>build mongodb with scons &amp; pyenv</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2017/03/06/nginx-router-example/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&text=build mongodb with scons &amp; pyenv"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&is_video=false&description=build mongodb with scons &amp; pyenv"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=build mongodb with scons &amp; pyenv&body=Check out this article: http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&name=build mongodb with scons &amp; pyenv&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        build mongodb with scons &amp; pyenv
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">刘冲的博客</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-07-21T12:24:49.000Z" itemprop="datePublished">2017-07-21</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>在使用Scons构建Mongodb的时候，报了个找不到typing包的错误，检查后发现python使用了pyenv下面自己安装的版本，而scons命令却使用了系统的。<br>在构建脚本中，如果执行scons的python版本如果合适的话，就直接使用了：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_python</span><span class="params">(min_version=<span class="params">(<span class="number">2</span>, <span class="number">5</span>)</span>)</span>:</span></div><div class="line">    <span class="keyword">try</span>:</div><div class="line">        <span class="keyword">if</span> sys.version_info &gt;= min_version:</div><div class="line">            <span class="keyword">return</span> sys.executable</div><div class="line">    <span class="keyword">except</span> AttributeError:</div><div class="line">        <span class="comment"># In case the version of Python is somehow missing sys.version_info or sys.executable.                                                                                                        </span></div><div class="line">        <span class="keyword">pass</span></div><div class="line"></div><div class="line">    ...此处省略</div></pre></td></tr></table></figure></p>
 <p>解决方法很简单，由于scons是一个python库，直接运行 ‘pip install scons’ 在自己的python里面安装一个。</p>
-</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/" data-id="cj5dupeow00003wi5lg4tkgi3" class="article-share-link">Aktie</a><div class="tags"></div><div class="post-nav"><a href="/2017/03/06/nginx-router-example/" class="next">nginx router example</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://liuchong.blog"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2017/07/21/build-mongodb-with-scons-pyenv/">build mongodb with scons & pyenv</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/06/nginx-router-example/">nginx router example</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/03/06/hello-world/">Hello World</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">刘冲的博客.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&text=build mongodb with scons &amp; pyenv"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&is_video=false&description=build mongodb with scons &amp; pyenv"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=build mongodb with scons &amp; pyenv&body=Check out this article: http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&title=build mongodb with scons &amp; pyenv"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://liuchong.blog/2017/07/21/build-mongodb-with-scons-pyenv/&name=build mongodb with scons &amp; pyenv&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 刘冲
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
