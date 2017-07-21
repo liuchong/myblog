@@ -63,11 +63,19 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: maupassant
+###theme: maupassant
+theme: cactus-dark
 
+nav:
+  Home: /
+  About: /about/
+  Writing: /archives/
+  Projects: http://github.com/liuchong
+  LINK_NAME: URL
+  
 links:
   - title: 我的Github
-    url: http://github.com/liuchong/
+    url: http://github.com/liuchong
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
