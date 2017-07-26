@@ -66,13 +66,6 @@ pagination_dir: page
 ###theme: maupassant
 theme: cactus-dark
 
-nav:
-  Home: /
-  About: /about/
-  Writing: /archives/
-  Projects: http://github.com/liuchong
-  LINK_NAME: URL
-  
 links:
   - title: 我的Github
     url: http://github.com/liuchong
