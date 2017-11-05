@@ -1,0 +1,2 @@
+webpackJsonp([0x802d931d3bc0],{305:function(t,e){t.exports={data:{allMarkdownRemark:{edges:[{node:{excerpt:"Hello, this is my first markdown post!",id:"/home/liu/projects/github/gatsby-starter-blog-typescript/src/pages/hello-markdown/index.md absPath of file >>> MarkdownRemark",frontmatter:{title:"My first markdown post",date:"November 01, 2017",path:"/hello-markdown"}}}]}},pathContext:{}}}});
+//# sourceMappingURL=path---posts-c4426bbc3d6850784c6c.js.map

@@ -1,0 +1,2 @@
+webpackJsonp([0x6743a4450468],{312:function(t,e){t.exports={data:{markdownRemark:{html:'<p>Created an example repository of simple dynamic routing application to show the usage of openresty on github:\n<a href="https://github.com/liuchong/ngx-router-example">ngx-router-example</a></p>',frontmatter:{date:"March 06, 2017",path:"/nginx-router-example/",title:"nginx router example"}},site:{siteMetadata:{siteName:"gatsby starter blog typescript"}}},pathContext:{}}}});
+//# sourceMappingURL=path---nginx-router-example-97ffab6a76a6cb45d35f.js.map
