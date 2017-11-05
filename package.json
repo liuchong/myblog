@@ -1,65 +1,104 @@
 {
-  "name": "gatsby-starter-blog",
-  "description": "Starter Gatsby Blog",
-  "version": "1.0.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby-starter-blog/issues"
-  },
-  "dependencies": {
-    "gatsby": "^1.9.62",
-    "gatsby-link": "^1.6.21",
-    "gatsby-plugin-google-analytics": "^1.0.8",
-    "gatsby-plugin-manifest": "^1.0.8",
-    "gatsby-plugin-offline": "^1.0.4",
-    "gatsby-plugin-preact": "^1.0.12",
-    "gatsby-plugin-react-helmet": "^1.0.3",
-    "gatsby-plugin-sharp": "^1.6.9",
-    "gatsby-plugin-typography": "^1.7.10",
-    "gatsby-remark-copy-linked-files": "^1.5.8",
-    "gatsby-remark-images": "^1.5.16",
-    "gatsby-remark-prismjs": "^1.2.1",
-    "gatsby-remark-responsive-iframe": "^1.4.8",
-    "gatsby-remark-smartypants": "^1.4.8",
-    "gatsby-source-filesystem": "^1.5.4",
-    "gatsby-transformer-remark": "^1.7.15",
-    "gatsby-transformer-sharp": "^1.6.10",
-    "lodash": "^4.15.0",
-    "react-responsive-grid": "^0.3.3",
-    "typeface-merriweather": "^0.0.35",
-    "typeface-montserrat": "^0.0.37",
-    "typography-theme-wordpress-2016": "^0.15.1"
-  },
-  "devDependencies": {
-    "eslint": "^4.9.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-config-standard-jsx": "^4.0.2",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-node": "^5.2.0",
-    "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-react": "^7.4.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "gh-pages": "^0.12.0",
-    "prettier": "^1.7.4"
-  },
-  "homepage": "https://github.com/gatsbyjs/gatsby-starter-blog#readme",
-  "keywords": [
-    "gatsby"
-  ],
+  "private": true,
+  "name": "gatsby-starter-blog-typescript",
+  "version": "0.0.0",
+  "description": "Start to use gatsby to build a blog.",
+  "repository": "http://github.com/liuchong/gatsby-starter-blog-typescript",
+  "author": "Liu Chong <mail@clojure.cn>",
   "license": "MIT",
-  "main": "n/a",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gatsbyjs/gatsby-starter-blog.git"
-  },
   "scripts": {
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "lint": "tslint -p . --type-check",
+    "lint:css": "stylelint './src/**/*.tsx'",
+    "test": "jest --env=jsdom",
+    "start": "gatsby develop",
     "dev": "gatsby develop",
-    "lint": "./node_modules/.bin/eslint --ext .js,.jsx --ignore-pattern public .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
-    "develop": "gatsby develop",
     "build": "gatsby build",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public",
-    "fix-semi": "eslint --quiet --ignore-pattern node_modules --ignore-pattern public --parser babel-eslint --no-eslintrc --rule '{\"semi\": [2, \"never\"], \"no-extra-semi\": [2]}' --fix gatsby-node.js"
+    "preview": "yarn build && http-server public/",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.2.13",
+    "@storybook/addon-info": "^3.2.13",
+    "@storybook/addon-knobs": "^3.2.13",
+    "@storybook/addon-links": "^3.2.13",
+    "@storybook/addon-notes": "^3.2.13",
+    "@storybook/addon-options": "^3.2.13",
+    "@storybook/addon-storyshots": "^3.2.13",
+    "@storybook/react": "^3.2.13",
+    "@types/enzyme": "3.1.1",
+    "@types/jest": "21.1.5",
+    "@types/node": "8.0.47",
+    "@types/react": "16.0.18",
+    "@types/react-dom": "16.0.2",
+    "@types/react-helmet": "^5.0.3",
+    "@types/storybook__addon-actions": "^3.0.1",
+    "@types/storybook__addon-info": "^3.2.0",
+    "@types/storybook__addon-knobs": "^3.2.1",
+    "@types/storybook__addon-links": "^3.0.2",
+    "@types/storybook__addon-notes": "^3.0.1",
+    "@types/storybook__addon-options": "^3.2.0",
+    "@types/storybook__react": "^3.0.5",
+    "enzyme": "3.1.0",
+    "enzyme-adapter-react-16": "1.0.2",
+    "gatsby": "latest",
+    "gatsby-link": "latest",
+    "gatsby-plugin-catch-links": "^1.0.9",
+    "gatsby-plugin-react-helmet": "^1.0.8",
+    "gatsby-plugin-styled-components": "^1.0.5",
+    "gatsby-plugin-typescript": "latest",
+    "gatsby-plugin-typography": "^1.7.10",
+    "gatsby-source-filesystem": "^1.5.6",
+    "gatsby-transformer-remark": "^1.7.19",
+    "gh-pages": "^1.0.0",
+    "http-server": "^0.10.0",
+    "jest": "21.3.0-beta.2",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "styled-components": "^2.2.2",
+    "stylelint": "^8.2.0",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.0.0",
+    "ts-jest": "21.1.3",
+    "ts-loader": "^3.1.0",
+    "tslint": "5.8.0",
+    "tslint-react": "3.2.0",
+    "typescript": "^2.5.3",
+    "typography-theme-wordpress-2016": "^0.15.10"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "verbose": true,
+    "setupFiles": [
+      "<rootDir>/scripts/jest/setupTests.js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.test.json"
+      }
+    },
+    "transform": {
+      "^.+\\.css$": "<rootDir>/scripts/jest/cssTransform.js",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js",
+      "^(?!.*\\.(js|jsx|json)$)": "<rootDir>/scripts/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "testPathIgnorePatterns": [
+      "/tmp",
+      "/.cache"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ]
   }
 }

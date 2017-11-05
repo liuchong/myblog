@@ -1,3 +1,14 @@
 {
-  "extends": ["standard", "standard-jsx"]
+  "parser": "babel-eslint",
+  "plugins": ["jest", "graphql"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:jest/recommended",
+    "standard",
+    "standard-jsx"
+  ],
+  "rules": {
+    "jsx-quotes": ["warn", "prefer-single"],
+    "space-before-function-paren": ["warn", "always"]
+  }
 }
