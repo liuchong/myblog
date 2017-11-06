@@ -1,2 +1,0 @@
-webpackJsonp([60335399758886],{87:function(t,a){t.exports={data:{site:{siteMetadata:{siteName:"gatsby starter blog typescript"}}},layoutContext:{}}}});
-//# sourceMappingURL=path----bea73a6e5e5b90658781.js.map
