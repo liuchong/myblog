@@ -1053,7 +1053,7 @@ webpackJsonp([22676092666560,60335399758886],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _propTypes = __webpack_require__(2);
+	var _propTypes = __webpack_require__(3);
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
@@ -2144,4 +2144,4 @@ webpackJsonp([22676092666560,60335399758886],{
 /***/ })
 
 });
-//# sourceMappingURL=component---src-layouts-index-tsx-bd7b3219d9f690e09e0d.js.map
+//# sourceMappingURL=component---src-layouts-index-tsx-3610656aa68daf6e005c.js.map

@@ -1015,7 +1015,7 @@ webpackJsonp([221169156629308],{
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _propTypes = __webpack_require__(2);
+	var _propTypes = __webpack_require__(3);
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
