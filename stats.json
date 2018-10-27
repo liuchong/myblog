@@ -16,21 +16,13 @@
       "path----5258b00fc7c1ecaa049f.js",
       "path----5258b00fc7c1ecaa049f.js.map"
     ],
-    "path---how-to-create-a-blog-website": [
-      "path---how-to-create-a-blog-website-440f2e3f59785b38400a.js",
-      "path---how-to-create-a-blog-website-440f2e3f59785b38400a.js.map"
-    ],
-    "path---compute-fibonacci": [
-      "path---compute-fibonacci-8d9056927d59dab00b41.js",
-      "path---compute-fibonacci-8d9056927d59dab00b41.js.map"
-    ],
     "path---nginx-router-example": [
       "path---nginx-router-example-2507908ec7b18598e8c4.js",
       "path---nginx-router-example-2507908ec7b18598e8c4.js.map"
     ],
     "path---posts": [
-      "path---posts-d84e39cc52b220928d84.js",
-      "path---posts-d84e39cc52b220928d84.js.map"
+      "path---posts-d2e21c544a1b5d124a0f.js",
+      "path---posts-d2e21c544a1b5d124a0f.js.map"
     ],
     "path---index": [
       "path---index-3ee70e0ebf55a67a6dc3.js",
@@ -39,10 +31,6 @@
     "component---src-pages-about-tsx": [
       "component---src-pages-about-tsx-ccea5a3f183a794feb18.js",
       "component---src-pages-about-tsx-ccea5a3f183a794feb18.js.map"
-    ],
-    "path---javascript-types-and-value-passing": [
-      "path---javascript-types-and-value-passing-561a6cc48f9f0e745e5c.js",
-      "path---javascript-types-and-value-passing-561a6cc48f9f0e745e5c.js.map"
     ],
     "commons": [
       "commons-9a6616bf3c2c415c38b2.js",
@@ -69,8 +57,8 @@
       "component---src-pages-index-tsx-7620921162c6b36a79dc.js.map"
     ],
     "app": [
-      "app-9afeeadf3d72d153fb66.js",
-      "app-9afeeadf3d72d153fb66.js.map"
+      "app-167b11934083dcc8131d.js",
+      "app-167b11934083dcc8131d.js.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
