@@ -1,9 +1,5 @@
 {
   "assetsByChunkName": {
-    "path---build-mongodb-with-scons-venv": [
-      "path---build-mongodb-with-scons-venv-6a39595180f33e24e342.js",
-      "path---build-mongodb-with-scons-venv-6a39595180f33e24e342.js.map"
-    ],
     "component---src-layouts-index-tsx": [
       "component---src-layouts-index-tsx-3610656aa68daf6e005c.js",
       "component---src-layouts-index-tsx-3610656aa68daf6e005c.js.map"
@@ -57,8 +53,8 @@
       "component---src-pages-index-tsx-7620921162c6b36a79dc.js.map"
     ],
     "app": [
-      "app-167b11934083dcc8131d.js",
-      "app-167b11934083dcc8131d.js.map"
+      "app-23a37e049865e0db110c.js",
+      "app-23a37e049865e0db110c.js.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
