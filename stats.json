@@ -1,5 +1,9 @@
 {
   "assetsByChunkName": {
+    "path---write-a-third-party-cargo-subcommand": [
+      "path---write-a-third-party-cargo-subcommand-e81efd70ce0791033361.js",
+      "path---write-a-third-party-cargo-subcommand-e81efd70ce0791033361.js.map"
+    ],
     "component---src-layouts-index-tsx": [
       "component---src-layouts-index-tsx-6e42e7cae0b6c092b1d6.js",
       "component---src-layouts-index-tsx-6e42e7cae0b6c092b1d6.js.map"
@@ -17,8 +21,8 @@
       "path---nginx-router-example-2507908ec7b18598e8c4.js.map"
     ],
     "path---posts": [
-      "path---posts-6f69b867a5a7f851c099.js",
-      "path---posts-6f69b867a5a7f851c099.js.map"
+      "path---posts-d53686cbe3caa35a06b4.js",
+      "path---posts-d53686cbe3caa35a06b4.js.map"
     ],
     "path---index": [
       "path---index-3ee70e0ebf55a67a6dc3.js",
@@ -53,8 +57,8 @@
       "component---src-pages-index-tsx-7620921162c6b36a79dc.js.map"
     ],
     "app": [
-      "app-61ebd143b6d4a1eaa01e.js",
-      "app-61ebd143b6d4a1eaa01e.js.map"
+      "app-a35eb07ab01f3e514bec.js",
+      "app-a35eb07ab01f3e514bec.js.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
