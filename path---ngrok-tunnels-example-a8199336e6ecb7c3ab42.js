@@ -1,2 +1,0 @@
-webpackJsonp([43677866281341],{306:function(e,t){e.exports={data:{markdownRemark:{html:'<p>Created an example repository of simple ngrok tunnels on github:\n<a href="https://github.com/liuchong/ngrok-tunnels-example">ngrok-tunnels-example</a></p>',frontmatter:{date:"July 10, 2018",path:"/ngrok-tunnels-example/",title:"nginx router example"}},site:{siteMetadata:{siteName:"黑貓博客"}}},pathContext:{}}}});
-//# sourceMappingURL=path---ngrok-tunnels-example-a8199336e6ecb7c3ab42.js.map
