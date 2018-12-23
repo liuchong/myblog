@@ -1,8 +1,8 @@
 {
   "assetsByChunkName": {
     "path---write-a-third-party-cargo-subcommand": [
-      "path---write-a-third-party-cargo-subcommand-ecade05eb320cdf77c7f.js",
-      "path---write-a-third-party-cargo-subcommand-ecade05eb320cdf77c7f.js.map"
+      "path---write-a-third-party-cargo-subcommand-e6aa7c676a60d32ff853.js",
+      "path---write-a-third-party-cargo-subcommand-e6aa7c676a60d32ff853.js.map"
     ],
     "component---src-layouts-index-tsx": [
       "component---src-layouts-index-tsx-6e42e7cae0b6c092b1d6.js",
@@ -21,8 +21,8 @@
       "path---nginx-router-example-2507908ec7b18598e8c4.js.map"
     ],
     "path---posts": [
-      "path---posts-f36f7c69a93dc9a0a77e.js",
-      "path---posts-f36f7c69a93dc9a0a77e.js.map"
+      "path---posts-c1bc042cea2c32fb9d6e.js",
+      "path---posts-c1bc042cea2c32fb9d6e.js.map"
     ],
     "path---index": [
       "path---index-3ee70e0ebf55a67a6dc3.js",
