@@ -16,13 +16,17 @@
       "path----5258b00fc7c1ecaa049f.js",
       "path----5258b00fc7c1ecaa049f.js.map"
     ],
+    "path---rewrite-blockchain-tutorial-in-rust": [
+      "path---rewrite-blockchain-tutorial-in-rust-697c793cf93055cabebd.js",
+      "path---rewrite-blockchain-tutorial-in-rust-697c793cf93055cabebd.js.map"
+    ],
     "path---nginx-router-example": [
       "path---nginx-router-example-2507908ec7b18598e8c4.js",
       "path---nginx-router-example-2507908ec7b18598e8c4.js.map"
     ],
     "path---posts": [
-      "path---posts-c1bc042cea2c32fb9d6e.js",
-      "path---posts-c1bc042cea2c32fb9d6e.js.map"
+      "path---posts-4c3da2c284ec37d0ba7c.js",
+      "path---posts-4c3da2c284ec37d0ba7c.js.map"
     ],
     "path---index": [
       "path---index-3ee70e0ebf55a67a6dc3.js",
@@ -57,8 +61,8 @@
       "component---src-pages-index-tsx-7620921162c6b36a79dc.js.map"
     ],
     "app": [
-      "app-a35eb07ab01f3e514bec.js",
-      "app-a35eb07ab01f3e514bec.js.map"
+      "app-fca0597330799fd5c764.js",
+      "app-fca0597330799fd5c764.js.map"
     ],
     "path---404": [
       "path---404-a0e39f21c11f6a62c5ab.js",
