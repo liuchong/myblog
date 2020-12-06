@@ -1,2 +1,0 @@
-webpackJsonp([0x6c88b1bf91d8],{312:function(t,a){t.exports={data:{markdownRemark:{html:'<p><a href="https://github.com/liuchong/sf">https://github.com/liuchong/sf</a></p>\n<p><a href="https://github.com/liuchong/fid">https://github.com/liuchong/fid</a></p>',frontmatter:{date:"March 16, 2019",path:"/simple-snowflake-in-go-and-rust/",title:"simple snowflake in go and rust"}},site:{siteMetadata:{siteName:"黑貓博客"}}},pathContext:{}}}});
-//# sourceMappingURL=path---simple-snowflake-in-go-and-rust-c12b29eb3a321de28703.js.map

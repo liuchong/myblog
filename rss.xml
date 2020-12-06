@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 06 Dec 2020 15:45:19 GMT</lastBuildDate><item><title><![CDATA[simple snowflake in go and rust]]></title><description><![CDATA[https://github.com/liuchong/sf https://github.com/liuchong/fid]]></description><link>https://blakat.cc/simple-snowflake-in-go-and-rust/</link><guid isPermaLink="false">https://blakat.cc/simple-snowflake-in-go-and-rust/</guid><pubDate>Sat, 16 Mar 2019 17:39:21 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/sf&quot;&gt;https://github.com/liuchong/sf&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/fid&quot;&gt;https://github.com/liuchong/fid&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[rewrite blockchain tutorial in rust]]></title><description><![CDATA[简单重写了个 Rust 版的 blockchain-tuorial 看了篇文章 https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc…]]></description><link>https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</link><guid isPermaLink="false">https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</guid><pubDate>Wed, 06 Mar 2019 04:44:30 GMT</pubDate><content:encoded>&lt;h1&gt;简单重写了个 Rust 版的 blockchain-tuorial&lt;/h1&gt;
+&lt;p&gt;看了篇文章&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&quot;&gt;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/mycoralhealth/blockchain-tutorial&quot;&gt;https://github.com/mycoralhealth/blockchain-tutorial&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;想着没几行代码，就用 Rust 简单写了下，写得不是多严谨。&lt;/p&gt;
+&lt;p&gt;我的代码在 &lt;a href=&quot;https://github.com/liuchong/blockchain-tutorial&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/liuchong/blog/gh-pages/favicon.ico&quot; alt=&quot;@liuchong/blockchain-tutorial&quot;&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[write a third party cargo subcommand]]></title><description><![CDATA[写一个第三方 cargo 子命令 动机 写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。 动手 调研 阅读了 cargo 官方 wiki 阅读了 cargo 官方 reference 观察目录 ~/.cargo/bin…]]></description><link>https://blakat.cc/write-a-third-party-cargo-subcommand/</link><guid isPermaLink="false">https://blakat.cc/write-a-third-party-cargo-subcommand/</guid><pubDate>Tue, 18 Dec 2018 13:26:11 GMT</pubDate><content:encoded>&lt;h1&gt;写一个第三方 cargo 子命令&lt;/h1&gt;
+&lt;h2&gt;动机&lt;/h2&gt;
+&lt;p&gt;写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。&lt;/p&gt;
+&lt;h2&gt;动手&lt;/h2&gt;
+&lt;h3&gt;调研&lt;/h3&gt;
+&lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommands&quot;&gt;wiki&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://doc.rust-lang.org/cargo/reference/external-tools.html&quot;&gt;reference&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls、rustfmt 等命令，是可以直接运行的，还有一些 cargo- 开头的命令，比如 cargo-clippy、cargo-fmt，就是运行 cargo clippy、cargo fmt 等命令时执行的程序。&lt;/p&gt;
+&lt;p&gt;试一下，&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;cd ~/.cargo/bin/
+ln -s racer cargo-racer
+cargo racer&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;输出比较不是很正常，看上去是把字符串“racer”当做参数传给了命令 racer，不过也对刚才的调查做了简单证实。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;error: Found argument &amp;#39;racer&amp;#39; which wasn&amp;#39;t expected, or isn&amp;#39;t valid in this context
+
+USAGE:
+...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;编码&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;创建项目 cargo new cargo-x&lt;/li&gt;
+&lt;li&gt;写代码&lt;/li&gt;
+&lt;li&gt;发布项目 cargo publish&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;仓库&lt;/h3&gt;
+&lt;p&gt;写了一个非常简单的版本，代码在 &lt;a href=&quot;https://github.com/liuchong/cargo-x&quot;&gt;&lt;img src=&quot;https://raw.githubusercontent.com/liuchong/blog/gh-pages/favicon.ico&quot; alt=&quot;@liuchong/cargo-x&quot;&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ngrok tunnels example]]></title><description><![CDATA[Created an example repository of simple ngrok tunnels on github:
+ngrok-tunnels-example Note: Maybe frp is a better choice.]]></description><link>https://blakat.cc/ngrok-tunnels-example/</link><guid isPermaLink="false">https://blakat.cc/ngrok-tunnels-example/</guid><pubDate>Tue, 10 Jul 2018 13:16:55 GMT</pubDate><content:encoded>&lt;p&gt;Created an example repository of simple ngrok tunnels on github:
+&lt;a href=&quot;https://github.com/liuchong/ngrok-tunnels-example&quot;&gt;ngrok-tunnels-example&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Note:&lt;br&gt;
+Maybe &lt;a href=&quot;https://github.com/fatedier/frp&quot;&gt;frp&lt;/a&gt; is a better choice.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[nginx router example]]></title><description><![CDATA[Created an example repository of simple dynamic routing application to show the usage of openresty on github:
+ngx-router-example]]></description><link>https://blakat.cc/nginx-router-example/</link><guid isPermaLink="false">https://blakat.cc/nginx-router-example/</guid><pubDate>Mon, 06 Mar 2017 01:33:15 GMT</pubDate><content:encoded>&lt;p&gt;Created an example repository of simple dynamic routing application to show the usage of openresty on github:
+&lt;a href=&quot;https://github.com/liuchong/ngx-router-example&quot;&gt;ngx-router-example&lt;/a&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
