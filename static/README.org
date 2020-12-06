@@ -1,1 +1,5 @@
 #+TITLE: 刘冲的博客
+
+#+ATTR_HTML: title="Publish Status"
+#+ATTR_HTML: alt="Publish Status"
+[[https://github.com/liuchong/my-blog/actions?query=workflow%3APublish][file:https://github.com/liuchong/my-blog/workflows/Publish/badge.svg]]
