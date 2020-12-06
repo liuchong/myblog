@@ -43,4 +43,4 @@ USAGE:
 
 ### 仓库
 
-写了一个非常简单的版本，代码在 [![@liuchong/cargo-x](https://raw.githubusercontent.com/liuchong/blog/gh-pages/favicon.ico)](https://github.com/liuchong/cargo-x)
+写了一个非常简单的版本，代码在 [![@liuchong/cargo-x](/images/favicon.ico)](https://github.com/liuchong/cargo-x)

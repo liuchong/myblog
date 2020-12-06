@@ -14,4 +14,4 @@ path: "/rewrite-blockchain-tutorial-in-rust/"
 
 想着没几行代码，就用 Rust 简单写了下，写得不是多严谨。
 
-我的代码在 [![@liuchong/blockchain-tutorial](https://raw.githubusercontent.com/liuchong/blog/gh-pages/favicon.ico)](https://github.com/liuchong/blockchain-tutorial)
+我的代码在 [![@liuchong/blockchain-tutorial](/images/favicon.ico)](https://github.com/liuchong/blockchain-tutorial)
