@@ -54,7 +54,7 @@ jobs:
 <p>要注意的是 <code class="language-text">secrets.PUBLISH</code> 这个要手动在 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 创建 token，
 然后再到项目里面添加一个 secrets 项，我这里是在 <a href="https://github.com/liuchong/my-blog/settings/secrets/actions">https://github.com/liuchong/my-blog/settings/secrets/actions</a>，<code class="language-text">Name</code>那项就填的 <code class="language-text">PUBLISH</code>。</p>
 <p>说明一下，这个链接 <a href="https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow">https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow</a> 上面还有个 <code class="language-text">secrets.GITHUB_TOKEN</code>，
-说是自动创建的，不过我没有使用用成功。</p>
+说是自动创建的，不过我没有使用成功。</p>
 <p>如果有问题，可以试着手动执行一下命令测试，注意 <code class="language-text">***</code> 改成自己的 secret：</p>
 <div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">gh-pages -b public -d public -r https://***@github.com/liuchong/my-blog.git</code></pre></div>
 <h3>从网页发布</h3>
