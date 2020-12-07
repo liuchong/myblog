@@ -61,7 +61,8 @@ jobs:
           git config user.name &quot;Liu Chong&quot;
           npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}</code></pre></div>
 <p>要注意的是 <code class="language-text">secrets.PUBLISH</code> 这个要手动在 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 创建 token，
-然后再到项目里面添加一个 secrets 项。拿我的博客项目举例来说就是在 <a href="https://github.com/liuchong/my-blog/settings/secrets/actions">https://github.com/liuchong/my-blog/settings/secrets/actions</a>，<code class="language-text">Name</code>那项就填的 <code class="language-text">PUBLISH</code>。</p>
+然后再到项目里面，比如我就是在 <a href="https://github.com/liuchong/my-blog/settings/secrets/actions">https://github.com/liuchong/my-blog/settings/secrets/actions</a>，添加一个 secrets 项，
+<code class="language-text">Name</code>那项就填的 <code class="language-text">PUBLISH</code>。</p>
 <p>说明一下，这个链接 <a href="https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow">https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow</a> 上面还有个 <code class="language-text">secrets.GITHUB_TOKEN</code>，
 说是自动创建的，不过我没有使用成功。</p>
 <p>如果发布有问题，可以试着手动执行一下命令测试，注意 <code class="language-text">***</code> 改成自己的 secret：</p>
