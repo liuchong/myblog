@@ -1,7 +1,7 @@
 ---
 title: 用 gatsby 和 github workflow 写博客
 date: "2020-12-17"
-description: "用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布。"
+description: "用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布"
 ---
 
 刚重新把在 github 上的 private 掉的博客放了出来。

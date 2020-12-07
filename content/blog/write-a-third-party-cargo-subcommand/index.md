@@ -1,18 +1,16 @@
 ---
-title: write a third party cargo subcommand
+title: 写一个第三方 cargo 子命令
 date: "2018-12-18T21:26:11+08:00"
-path: "/write-a-third-party-cargo-subcommand/"
+description: "写一个 cargo 子命令，把 shell 命令存到配置文件里面"
 ---
 
-# 写一个第三方 cargo 子命令
-
-## 动机
+### 动机
 
 写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。
 
-## 动手
+### 动手
 
-### 调研
+###### 调研
 
 阅读了 cargo 官方 [wiki](https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommands)
 
@@ -35,12 +33,13 @@ USAGE:
 ...
 ```
 
-### 编码
+###### 编码
 
 1. 创建项目 cargo new cargo-x
 2. 写代码
 3. 发布项目 cargo publish
 
-### 仓库
+###### 仓库
 
-写了一个非常简单的版本，代码在 [![@liuchong/cargo-x](/images/favicon.ico)](https://github.com/liuchong/cargo-x)
+写了一个非常简单的版本，代码在
+<a href="https://github.com/liuchong/cargo-x" target="_blank"><img src="/images/bomb.png" alt="@liuchong/cargo-x" width="32" height="32" align="bottom"/></a>

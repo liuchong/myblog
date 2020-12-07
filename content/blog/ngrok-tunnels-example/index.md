@@ -1,7 +1,7 @@
 ---
 title: ngrok tunnels example
 date: "2018-07-10T21:16:55+08:00"
-path: "/ngrok-tunnels-example/"
+description: "created an example repository of simple ngrok tunnels."
 ---
 
 Created an example repository of simple ngrok tunnels on github:
