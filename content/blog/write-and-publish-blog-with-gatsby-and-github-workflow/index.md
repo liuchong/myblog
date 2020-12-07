@@ -88,7 +88,7 @@ jobs:
 然后再到项目里面添加一个 secrets 项，我这里是在 <https://github.com/liuchong/my-blog/settings/secrets/actions>，`Name`那项就填的 `PUBLISH`。
 
 说明一下，这个链接 <https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow> 上面还有个 `secrets.GITHUB_TOKEN`，
-说是自动创建的，不过我没有使用用成功。
+说是自动创建的，不过我没有使用成功。
 
 如果有问题，可以试着手动执行一下命令测试，注意 `***` 改成自己的 secret：
 
