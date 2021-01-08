@@ -30,8 +30,8 @@ This is my first post on my new fake blog! How exciting!
 ... 此处省略很多字</code></pre></div>
 <p>现在这些展示文章的任务就圆满完成了，我们愿意的话可以把它们删除。然后比着它们的格式，打开咱喜欢的编辑器，写起来吧！</p>
 <p>安装一个工具 <code class="language-text">gh-pages</code> 尝试发布一下，进行观赏：</p>
-<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">npm install -g gh-pages
-gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git</code></pre></div>
+<div class="gatsby-highlight" data-language="text"><pre class="language-text"><code class="language-text">npm install --save gh-pages
+npx gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git</code></pre></div>
 <p>上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 <a href="https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/">https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/</a>。
 在项目设置里面设置 github pages 分支，点击显示出来的那个链接博客就出来了。</p>
 <p>到目前为止，还不错是吧！</p>
@@ -53,12 +53,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Publish
         run: |
+          git config user.email ${{github.actor}}@users.noreply.github.com
+          git config user.name ${{github.actor}}
           npm install
-          npm install gatsby-cli
-          npm run build
-          npm install gh-pages
-          git config user.email &quot;liuchong@users.noreply.github.com&quot;
-          git config user.name &quot;Liu Chong&quot;
+          npx gatsby build
           npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}</code></pre></div>
 <p>要注意的是 <code class="language-text">secrets.PUBLISH</code> 这个要手动在 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 创建 token，
 然后再到项目里面，比如我就是在 <a href="https://github.com/liuchong/my-blog/settings/secrets/actions">https://github.com/liuchong/my-blog/settings/secrets/actions</a>，添加一个 secrets 项，

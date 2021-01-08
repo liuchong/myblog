@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 08 Jan 2021 13:19:56 GMT</lastBuildDate><item><title><![CDATA[用 gatsby 和 github workflow 写博客]]></title><description><![CDATA[刚重新把在 github 上的 private 掉的博客的仓库放了出来。 之前用的也是 gatsby，自己改出来了一个 gatsby-starter-blog-typescript。
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 08 Jan 2021 13:28:24 GMT</lastBuildDate><item><title><![CDATA[用 gatsby 和 github workflow 写博客]]></title><description><![CDATA[刚重新把在 github 上的 private 掉的博客的仓库放了出来。 之前用的也是 gatsby，自己改出来了一个 gatsby-starter-blog-typescript。
 现在不想升级那个年久失修的 typescript…]]></description><link>https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</link><guid isPermaLink="false">https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</guid><pubDate>Thu, 17 Dec 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;刚重新把在 github 上的 private 掉的&lt;a href=&quot;/&quot;&gt;博客&lt;/a&gt;的&lt;a href=&quot;https://github.com/liuchong/my-blog&quot;&gt;仓库&lt;/a&gt;放了出来。&lt;/p&gt;
 &lt;p&gt;之前用的也是 &lt;a href=&quot;https://www.gatsbyjs.com/&quot;&gt;gatsby&lt;/a&gt;，自己改出来了一个 &lt;a href=&quot;https://github.com/liuchong/gatsby-starter-blog-typescript&quot;&gt;gatsby-starter-blog-typescript&lt;/a&gt;。
 现在不想升级那个年久失修的 typescript 版本的代码了，直接清空重新走了一遍流程，更新到最新版官方博客模板 &lt;a href=&quot;https://github.com/gatsbyjs/gatsby-starter-blog&quot;&gt;gatsby-starter-blog&lt;/a&gt;。&lt;/p&gt;
@@ -28,8 +28,8 @@ This is my first post on my new fake blog! How exciting!
 ... 此处省略很多字&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;现在这些展示文章的任务就圆满完成了，我们愿意的话可以把它们删除。然后比着它们的格式，打开咱喜欢的编辑器，写起来吧！&lt;/p&gt;
 &lt;p&gt;安装一个工具 &lt;code class=&quot;language-text&quot;&gt;gh-pages&lt;/code&gt; 尝试发布一下，进行观赏：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install -g gh-pages
-gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install --save gh-pages
+npx gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 &lt;a href=&quot;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&quot;&gt;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&lt;/a&gt;。
 在项目设置里面设置 github pages 分支，点击显示出来的那个链接博客就出来了。&lt;/p&gt;
 &lt;p&gt;到目前为止，还不错是吧！&lt;/p&gt;
@@ -51,12 +51,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Publish
         run: |
+          git config user.email ${{github.actor}}@users.noreply.github.com
+          git config user.name ${{github.actor}}
           npm install
-          npm install gatsby-cli
-          npm run build
-          npm install gh-pages
-          git config user.email &amp;quot;liuchong@users.noreply.github.com&amp;quot;
-          git config user.name &amp;quot;Liu Chong&amp;quot;
+          npx gatsby build
           npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;要注意的是 &lt;code class=&quot;language-text&quot;&gt;secrets.PUBLISH&lt;/code&gt; 这个要手动在 &lt;a href=&quot;https://github.com/settings/tokens&quot;&gt;https://github.com/settings/tokens&lt;/a&gt; 创建 token，
 然后再到项目里面，比如我就是在 &lt;a href=&quot;https://github.com/liuchong/my-blog/settings/secrets/actions&quot;&gt;https://github.com/liuchong/my-blog/settings/secrets/actions&lt;/a&gt;，添加一个 secrets 项，
