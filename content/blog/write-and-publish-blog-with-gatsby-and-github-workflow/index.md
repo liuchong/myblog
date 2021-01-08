@@ -4,7 +4,7 @@ date: "2020-12-17"
 description: "用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布"
 ---
 
-刚重新把在 github 上的 private 掉的[博客](/)的[仓库](https://github.com/liuchong/my-blog)放了出来。
+刚重新把在 github 上的 private 掉的[博客](/)的[仓库](https://github.com/liuchong/myblog)放了出来。
 
 之前用的也是 [gatsby](https://www.gatsbyjs.com/)，自己改出来了一个 [gatsby-starter-blog-typescript](https://github.com/liuchong/gatsby-starter-blog-typescript)。
 现在不想升级那个年久失修的 typescript 版本的代码了，直接清空重新走了一遍流程，更新到最新版官方博客模板 [gatsby-starter-blog](https://github.com/gatsbyjs/gatsby-starter-blog)。
@@ -15,7 +15,7 @@ description: "用 gatsby 和 github workflow 写博客，支持在在线编辑�
 
 ```
 npm install -g gatsby-cli
-gatsby new my-blog https://github.com/gatsbyjs/gatsby-starter-blog
+gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog
 ```
 
 运行完了，把一些文件里面按照需要改一下就可以使用了：
@@ -37,7 +37,7 @@ gatsby develop
 我还在 `static` 目录放置了一些文件，它们会被原封不动的复制到网站目录。
 比如 `CNAME` 用来在 github pages 绑定域名，后面会发布后就可以用到。
 
-安装完后，可以创建一个 github 仓库，我这里就是 `my-blog`，把代码提交后推到仓库里。
+安装完后，可以创建一个 github 仓库，我这里就是 `myblog`，把代码提交后推到仓库里。
 
 ### 写文章
 
@@ -60,7 +60,7 @@ This is my first post on my new fake blog! How exciting!
 
 ```
 npm install --save gh-pages
-npx gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git
+npx gh-pages -b public -d public -r https://github.com/liuchong/myblog.git
 ```
 
 上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 <https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/>。
@@ -99,7 +99,7 @@ jobs:
 ```
 
 要注意的是 `secrets.PUBLISH` 这个要手动在 <https://github.com/settings/tokens> 创建 token，
-然后再到项目里面，比如我就是在 <https://github.com/liuchong/my-blog/settings/secrets/actions>，添加一个 secrets 项，
+然后再到项目里面，比如我就是在 <https://github.com/liuchong/myblog/settings/secrets/actions>，添加一个 secrets 项，
 `Name`那项就填的 `PUBLISH`。
 
 说明一下，这个链接 <https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow> 上面还有个 `secrets.GITHUB_TOKEN`，
@@ -108,13 +108,13 @@ jobs:
 如果发布有问题，可以试着手动执行一下命令测试，注意 `***` 改成自己的 secret：
 
 ```
-gh-pages -b public -d public -r https://***@github.com/liuchong/my-blog.git
+gh-pages -b public -d public -r https://***@github.com/liuchong/myblog.git
 ```
 
 ### 从网页发布
 
-到仓库页面 <https://github.com/liuchong/my-blog/tree/master/content/blog> 点击 **Add file -> Create new file** 然后填入 `my-title/index.md`，写就行了。
+到仓库页面 <https://github.com/liuchong/myblog/tree/master/content/blog> 点击 **Add file -> Create new file** 然后填入 `my-title/index.md`，写就行了。
 
 我这篇博客就是在网页上面写的，其中 `date` 条目我手工写的，所以简化了一下，像 `date: "2020-12-17"` 这样也是可以的，不用那么精确。
 
-不过还是不推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为博客文章没了，吓坏了 👀
+不过还是不推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，吓坏了 👀

@@ -2,4 +2,4 @@
 
 #+ATTR_HTML: title="Publish Status"
 #+ATTR_HTML: alt="Publish Status"
-[[https://github.com/liuchong/my-blog/actions?query=workflow%3APublish][file:https://github.com/liuchong/my-blog/workflows/Publish/badge.svg]]
+[[https://github.com/liuchong/myblog/actions?query=workflow%3APublish][file:https://github.com/liuchong/myblog/workflows/Publish/badge.svg]]
