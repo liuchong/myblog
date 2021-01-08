@@ -21,10 +21,8 @@ jobs:
             ${{ runner.os }}-node-
       - name: Publish
         run: |
+          git config user.email ${{github.actor}}@users.noreply.github.com
+          git config user.name ${{github.actor}}
           npm install
-          npm install gatsby-cli
-          npm run build
-          npm install gh-pages
-          git config user.email "liuchong@users.noreply.github.com"
-          git config user.name "Liu Chong"
+          npx gatsby build
           npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}

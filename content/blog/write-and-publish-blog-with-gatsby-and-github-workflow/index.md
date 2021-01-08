@@ -59,8 +59,8 @@ This is my first post on my new fake blog! How exciting!
 安装一个工具 `gh-pages` 尝试发布一下，进行观赏：
 
 ```
-npm install -g gh-pages
-gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git
+npm install --save gh-pages
+npx gh-pages -b public -d public -r https://github.com/liuchong/my-blog.git
 ```
 
 上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 <https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/>。
@@ -91,12 +91,10 @@ jobs:
       - uses: actions/checkout@v1
       - name: Publish
         run: |
+          git config user.email ${{github.actor}}@users.noreply.github.com
+          git config user.name ${{github.actor}}
           npm install
-          npm install gatsby-cli
-          npm run build
-          npm install gh-pages
-          git config user.email "liuchong@users.noreply.github.com"
-          git config user.name "Liu Chong"
+          npx gatsby build
           npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}
 ```
 
