@@ -4,10 +4,10 @@ date: "2020-12-17"
 description: "用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布"
 ---
 
-刚重新把在 github 上的 private 掉的[博客](/)的[仓库](https://github.com/liuchong/myblog)放了出来。
+这里是本[博客](/)的[仓库](https://github.com/liuchong/myblog)。
 
-之前用的也是 [gatsby](https://www.gatsbyjs.com/)，自己改出来了一个 [gatsby-starter-blog-typescript](https://github.com/liuchong/gatsby-starter-blog-typescript)。
-现在不想升级那个年久失修的 typescript 版本的代码了，直接清空重新走了一遍流程，更新到最新版官方博客模板 [gatsby-starter-blog](https://github.com/gatsbyjs/gatsby-starter-blog)。
+之前用的也是 [gatsby](https://www.gatsbyjs.com/)，自己改出来了一个 [gatsby-starter-blog-typescript](https://github.com/liuchong/gatsby-starter-blog-typescript)，但已经年久失修不想维护了。
+于是直接把博客的清空了仓库，更新到最新的官方模板 [gatsby-starter-blog](https://github.com/gatsbyjs/gatsby-starter-blog)。
 
 ### 安装 gatsby
 
@@ -117,4 +117,4 @@ gh-pages -b public -d public -r https://***@github.com/liuchong/myblog.git
 
 我这篇博客就是在网页上面写的，其中 `date` 条目我手工写的，所以简化了一下，像 `date: "2020-12-17"` 这样也是可以的，不用那么精确。
 
-不过还是不推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，吓坏了 👀
+不太推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，有点吓人 👀
