@@ -1,4 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Mon, 09 May 2022 04:09:14 GMT</lastBuildDate><item><title><![CDATA[用 github.dev 写博客]]></title><description><![CDATA[上回说到可以 用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布，最近出了个 github.dev，这么一来写博客就更方便了。 上回文章在这里看 https://blakat.cc/write-and-publish-blog-with…]]></description><link>https://blakat.cc/write-blog-with-github-dev/</link><guid isPermaLink="false">https://blakat.cc/write-blog-with-github-dev/</guid><pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;上回说到可以 &lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布&lt;/a&gt;，最近出了个 github.dev，这么一来写博客就更方便了。&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Fri, 10 Jun 2022 18:36:40 GMT</lastBuildDate><item><title><![CDATA[使用 google-java-format]]></title><description><![CDATA[google-java-format是一款优秀的 Java 源代码格式化工具，使用的是Google Java Style，下面让我们来看一下怎么配置。 配置项目 使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts…]]></description><link>https://blakat.cc/use-google-java-format/</link><guid isPermaLink="false">https://blakat.cc/use-google-java-format/</guid><pubDate>Sat, 11 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/google/google-java-format&quot;&gt;google-java-format&lt;/a&gt;是一款优秀的 Java 源代码格式化工具，使用的是&lt;a href=&quot;https://google.github.io/styleguide/javaguide.html&quot;&gt;Google Java Style&lt;/a&gt;，下面让我们来看一下怎么配置。&lt;/p&gt;
+&lt;h3&gt;配置项目&lt;/h3&gt;
+&lt;p&gt;使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts 里面加入这两项配置：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
+  id(&amp;quot;com.diffplug.spotless&amp;quot;) version &amp;quot;6.7.0&amp;quot;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  spotless {
+    java {
+      target(&amp;quot;src/*/java/**/*.java&amp;quot;)
+      importOrder()
+      removeUnusedImports()
+      trimTrailingWhitespace()
+      indentWithSpaces(4)
+      endWithNewline()
+      googleJavaFormat()
+    }
+  }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;我们不想在每个子项目里面都重复配置，所以可以在 &lt;code class=&quot;language-text&quot;&gt;parent&lt;/code&gt; build.gradle.kts 里面这样配置：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
+  id(&amp;quot;com.diffplug.spotless&amp;quot;) version &amp;quot;6.7.0&amp;quot;
+}
+
+allprojects {
+  apply(plugin = &amp;quot;com.diffplug.spotless&amp;quot;)
+
+  afterEvaluate {
+    val spotless = tasks.findByName(&amp;quot;spotlessApply&amp;quot;)
+      if (spotless != null) {
+        tasks.withType&amp;lt;JavaCompile&amp;gt; {
+          finalizedBy(spotless)
+        }
+    }
+  }
+
+  spotless {
+    java {
+      target(&amp;quot;src/*/java/**/*.java&amp;quot;)
+      importOrder()
+      removeUnusedImports()
+      trimTrailingWhitespace()
+      indentWithSpaces(4)
+      endWithNewline()
+      googleJavaFormat()
+    }
+  }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;其中 &lt;code class=&quot;language-text&quot;&gt;afterEvaluate&lt;/code&gt; 一项配置使得每当我们测试·、编译的时候自动运行格式化，更好地保持保证代码一直处于格式化的状态。&lt;/p&gt;
+&lt;h3&gt;配置编辑器&lt;/h3&gt;
+&lt;p&gt;这里使用了 Emacs 编辑器，需要加载 &lt;a href=&quot;https://raw.githubusercontent.com/google/google-java-format/master/core/src/main/scripts/google-java-format.el&quot;&gt;google-java-format.el&lt;/a&gt;，将文件下载下来放入 Emacs 可以正常加载的目录。&lt;/p&gt;
+&lt;p&gt;需要下载或者编译 google-java-format，可以直接从 &lt;a href=&quot;https://github.com/google/google-java-format/releases&quot;&gt;发布页面&lt;/a&gt; 进行下载。下载后将如下脚本保存成名为 &lt;code class=&quot;language-text&quot;&gt;google-java-format&lt;/code&gt; 的文件，并执行 chmod +x google-java-format。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
+exec java -jar &amp;quot;/path/to/google-java-format.jar&amp;quot; &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;还需要配置 emacs，一个典型的配置如下：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  (require &amp;#39;google-java-format)
+  (setq google-java-format-executable &amp;quot;/path/to/google-java-format&amp;quot;)
+    (add-hook &amp;#39;java-mode-hook (lambda ()
+                              (add-hook &amp;#39;before-save-hook &amp;#39;google-java-format-buffer nil t)
+                              (global-set-key (kbd &amp;quot;C-c SPC&amp;quot;) &amp;#39;google-java-format)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;配置了保存时自动格式化，并绑定了一个快捷键。&lt;/p&gt;
+&lt;p&gt;Emacs 编辑器在 &lt;code class=&quot;language-text&quot;&gt;java-mode&lt;/code&gt; 的缩进可能是 4，为了让写代码的时候更舒服一点，如果不想全局配置，可以将如下配置写入项目根目录的 &lt;code class=&quot;language-text&quot;&gt;.dir-locals.el&lt;/code&gt; 文件：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;((java-mode
+  (c-basic-offset . 2)
+  (tab-width . 2)
+  (indent-tabs-mode . nil)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3&gt;Native Image 编译&lt;/h3&gt;
+&lt;p&gt;前面直接使用 Java 执行 jar 文件，会明显感觉到延迟。如果在意的话，可以使用 &lt;a href=&quot;https://www.graalvm.org/22.1/reference-manual/native-image/&quot;&gt;Native Image&lt;/a&gt; 编译。&lt;/p&gt;
+&lt;p&gt;安装 GraalVM 后将其配置到 &lt;code class=&quot;language-text&quot;&gt;JAVA_HOME&lt;/code&gt;，并执行 &lt;code class=&quot;language-text&quot;&gt;gu install native-image&lt;/code&gt; 来安装 &lt;code class=&quot;language-text&quot;&gt;Native Image&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后下载 google-java-format 源码并编译：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;git clone git@github.com:google/google-java-format.git
+cd google-java-format
+mvn -Pnative -DskipTests package&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;编译完成后从 target 目录将 &lt;code class=&quot;language-text&quot;&gt;google-java-format&lt;/code&gt; 可执行文件复制到合适的路径，配置到编辑器中即可。为了适配不同的环境，我将 MacOS 上编译的文件命名为 google-java-format.macos，还是用脚本启动。&lt;/p&gt;
+&lt;p&gt;脚本大体是这个样子：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
+
+# export JAVA_HOME=...
+export BASE_DIR=&amp;quot;$( cd &amp;quot;$( dirname &amp;quot;${BASH_SOURCE[0]}&amp;quot; )&amp;quot; &amp;amp;&amp;amp; pwd )&amp;quot;
+
+if [ $(uname) == &amp;#39;Darwin&amp;#39; ];
+then
+    ${BASE_DIR}/google-java-format.macos &amp;quot;$@&amp;quot;
+else
+    exec &amp;quot;${JAVA_HOME}/bin/java&amp;quot; -jar &amp;quot;${BASE_DIR}/google-java-format-1.15.0-all-deps.jar&amp;quot; &amp;quot;$@&amp;quot;
+fi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;可以明显感受到命令执行速度的提升。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[用 github.dev 写博客]]></title><description><![CDATA[上回说到可以 用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布，最近出了个 github.dev，这么一来写博客就更方便了。 上回文章在这里看 https://blakat.cc/write-and-publish-blog-with…]]></description><link>https://blakat.cc/write-blog-with-github-dev/</link><guid isPermaLink="false">https://blakat.cc/write-blog-with-github-dev/</guid><pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;上回说到可以 &lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布&lt;/a&gt;，最近出了个 github.dev，这么一来写博客就更方便了。&lt;/p&gt;
 &lt;h3&gt;上回文章在这里看&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/&quot;&gt;https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&lt;/a&gt;&lt;/p&gt;
