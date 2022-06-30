@@ -40,10 +40,10 @@ allprojects {
   apply(plugin = "com.diffplug.spotless")
 
   afterEvaluate {
-    val spotless = tasks.findByName("spotlessApply")
+    val spotless = tasks.findByName("spotlessCheck")
       if (spotless != null) {
-        tasks.withType<JavaCompile> {
-          finalizedBy(spotless)
+        tasks.withType<Test> {
+          dependsOn(spotless)
         }
     }
   }
@@ -62,7 +62,20 @@ allprojects {
 }
 ```
 
-其中 `afterEvaluate` 一项配置使得每当我们测试·、编译的时候自动运行格式化，更好地保持保证代码一直处于格式化的状态。
+其中 `afterEvaluate` 一项配置使得每当我们测试的时候，先检查代码格式化情况，更好地保持保证代码一直处于格式化的状态。
+
+或者如果想省事儿也可以这样配置，让我们测试、编译代码的时候都自动进行代码格式化：
+
+```
+  afterEvaluate {
+    val spotless = tasks.findByName("spotlessApply")
+      if (spotless != null) {
+        tasks.withType<JavaCompile> {
+          dependsOn(spotless)
+        }
+    }
+  }
+```
 
 ### 配置编辑器
 
