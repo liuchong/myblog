@@ -59,7 +59,7 @@ This is my first post on my new fake blog! How exciting!
 安装一个工具 `gh-pages` 尝试发布一下，进行观赏：
 
 ```
-npm install --save gh-pages
+npm install --save-dev gh-pages
 npx gh-pages -b public -d public -r https://github.com/liuchong/myblog.git
 ```
 
