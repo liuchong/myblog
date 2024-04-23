@@ -15,7 +15,7 @@ description: "用 gatsby 和 github workflow 写博客，支持在在线编辑�
 
 ```
 npm install -g gatsby-cli
-gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog
+npx gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog
 ```
 
 运行完了，把一些文件里面按照需要改一下就可以使用了：
@@ -29,7 +29,7 @@ gatsby-config.js
 预览一下：
 
 ```
-gatsby develop
+npx gatsby develop
 ```
 
 执行完命令打开 <http://localhost:8000/> 可以看到几个示范文章已经在那里了。
