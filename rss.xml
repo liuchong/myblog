@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[大大大大大]]></title><description><![CDATA[ 一个博客.]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 30 Jun 2022 03:47:27 GMT</lastBuildDate><item><title><![CDATA[使用 google-java-format]]></title><description><![CDATA[google-java-format是一款优秀的 Java 源代码格式化工具，使用的是Google Java Style，下面让我们来看一下怎么配置。 配置项目 使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts…]]></description><link>https://blakat.cc/use-google-java-format/</link><guid isPermaLink="false">https://blakat.cc/use-google-java-format/</guid><pubDate>Sat, 11 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/google/google-java-format&quot;&gt;google-java-format&lt;/a&gt;是一款优秀的 Java 源代码格式化工具，使用的是&lt;a href=&quot;https://google.github.io/styleguide/javaguide.html&quot;&gt;Google Java Style&lt;/a&gt;，下面让我们来看一下怎么配置。&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[Gatsby Starter Blog RSS Feed]]></title><description><![CDATA[ 一个博客。]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 23 Apr 2024 12:45:16 GMT</lastBuildDate><item><title><![CDATA[使用 google-java-format]]></title><description><![CDATA[google-java-format是一款优秀的 Java 源代码格式化工具，使用的是Google Java Style，下面让我们来看一下怎么配置。 配置项目 使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts…]]></description><link>https://blakat.cc/use-google-java-format/</link><guid isPermaLink="false">https://blakat.cc/use-google-java-format/</guid><pubDate>Sat, 11 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/google/google-java-format&quot;&gt;google-java-format&lt;/a&gt;是一款优秀的 Java 源代码格式化工具，使用的是&lt;a href=&quot;https://google.github.io/styleguide/javaguide.html&quot;&gt;Google Java Style&lt;/a&gt;，下面让我们来看一下怎么配置。&lt;/p&gt;
 &lt;h3&gt;配置项目&lt;/h3&gt;
 &lt;p&gt;使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts 里面加入这两项配置：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
-  id(&amp;quot;com.diffplug.spotless&amp;quot;) version &amp;quot;6.7.0&amp;quot;
+  id(&quot;com.diffplug.spotless&quot;) version &quot;6.7.0&quot;
 }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  spotless {
     java {
-      target(&amp;quot;src/*/java/**/*.java&amp;quot;)
+      target(&quot;src/*/java/**/*.java&quot;)
       importOrder()
       removeUnusedImports()
       trimTrailingWhitespace()
@@ -17,16 +17,16 @@
   }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;我们不想在每个子项目里面都重复配置，所以可以在 &lt;code class=&quot;language-text&quot;&gt;parent&lt;/code&gt; build.gradle.kts 里面这样配置：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
-  id(&amp;quot;com.diffplug.spotless&amp;quot;) version &amp;quot;6.7.0&amp;quot;
+  id(&quot;com.diffplug.spotless&quot;) version &quot;6.7.0&quot;
 }
 
 allprojects {
-  apply(plugin = &amp;quot;com.diffplug.spotless&amp;quot;)
+  apply(plugin = &quot;com.diffplug.spotless&quot;)
 
   afterEvaluate {
-    val spotless = tasks.findByName(&amp;quot;spotlessCheck&amp;quot;)
+    val spotless = tasks.findByName(&quot;spotlessCheck&quot;)
       if (spotless != null) {
-        tasks.withType&amp;lt;Test&amp;gt; {
+        tasks.withType&amp;lt;Test&gt; {
           dependsOn(spotless)
         }
     }
@@ -34,7 +34,7 @@ allprojects {
 
   spotless {
     java {
-      target(&amp;quot;src/*/java/**/*.java&amp;quot;)
+      target(&quot;src/*/java/**/*.java&quot;)
       importOrder()
       removeUnusedImports()
       trimTrailingWhitespace()
@@ -47,9 +47,9 @@ allprojects {
 &lt;p&gt;其中 &lt;code class=&quot;language-text&quot;&gt;afterEvaluate&lt;/code&gt; 一项配置使得每当我们测试的时候，先检查代码格式化情况，更好地保持保证代码一直处于格式化的状态。&lt;/p&gt;
 &lt;p&gt;或者如果想省事儿也可以这样配置，让我们测试、编译代码的时候都自动进行代码格式化：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  afterEvaluate {
-    val spotless = tasks.findByName(&amp;quot;spotlessApply&amp;quot;)
+    val spotless = tasks.findByName(&quot;spotlessApply&quot;)
       if (spotless != null) {
-        tasks.withType&amp;lt;JavaCompile&amp;gt; {
+        tasks.withType&amp;lt;JavaCompile&gt; {
           dependsOn(spotless)
         }
     }
@@ -58,13 +58,13 @@ allprojects {
 &lt;p&gt;这里使用了 Emacs 编辑器，需要加载 &lt;a href=&quot;https://raw.githubusercontent.com/google/google-java-format/master/core/src/main/scripts/google-java-format.el&quot;&gt;google-java-format.el&lt;/a&gt;，将文件下载下来放入 Emacs 可以正常加载的目录。&lt;/p&gt;
 &lt;p&gt;需要下载或者编译 google-java-format，可以直接从 &lt;a href=&quot;https://github.com/google/google-java-format/releases&quot;&gt;发布页面&lt;/a&gt; 进行下载。下载后将如下脚本保存成名为 &lt;code class=&quot;language-text&quot;&gt;google-java-format&lt;/code&gt; 的文件，并执行 chmod +x google-java-format。&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
-exec java -jar &amp;quot;/path/to/google-java-format.jar&amp;quot; &amp;quot;$@&amp;quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+exec java -jar &quot;/path/to/google-java-format.jar&quot; &quot;$@&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;还需要配置 emacs，一个典型的配置如下：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  (require &amp;#39;google-java-format)
-  (setq google-java-format-executable &amp;quot;/path/to/google-java-format&amp;quot;)
-    (add-hook &amp;#39;java-mode-hook (lambda ()
-                              (add-hook &amp;#39;before-save-hook &amp;#39;google-java-format-buffer nil t)
-                              (global-set-key (kbd &amp;quot;C-c SPC&amp;quot;) &amp;#39;google-java-format)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  (require &apos;google-java-format)
+  (setq google-java-format-executable &quot;/path/to/google-java-format&quot;)
+    (add-hook &apos;java-mode-hook (lambda ()
+                              (add-hook &apos;before-save-hook &apos;google-java-format-buffer nil t)
+                              (global-set-key (kbd &quot;C-c SPC&quot;) &apos;google-java-format)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;配置了保存时自动格式化，并绑定了一个快捷键。&lt;/p&gt;
 &lt;p&gt;Emacs 编辑器在 &lt;code class=&quot;language-text&quot;&gt;java-mode&lt;/code&gt; 的缩进可能是 4，为了让写代码的时候更舒服一点，如果不想全局配置，可以将如下配置写入项目根目录的 &lt;code class=&quot;language-text&quot;&gt;.dir-locals.el&lt;/code&gt; 文件：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;((java-mode
@@ -83,13 +83,13 @@ mvn -Pnative -DskipTests package&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
 
 # export JAVA_HOME=...
-export BASE_DIR=&amp;quot;$( cd &amp;quot;$( dirname &amp;quot;${BASH_SOURCE[0]}&amp;quot; )&amp;quot; &amp;amp;&amp;amp; pwd )&amp;quot;
+export BASE_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;amp;&amp;amp; pwd )&quot;
 
-if [ $(uname) == &amp;#39;Darwin&amp;#39; ];
+if [ $(uname) == &apos;Darwin&apos; ];
 then
-    ${BASE_DIR}/google-java-format.macos &amp;quot;$@&amp;quot;
+    ${BASE_DIR}/google-java-format.macos &quot;$@&quot;
 else
-    exec &amp;quot;${JAVA_HOME}/bin/java&amp;quot; -jar &amp;quot;${BASE_DIR}/google-java-format-1.15.0-all-deps.jar&amp;quot; &amp;quot;$@&amp;quot;
+    exec &quot;${JAVA_HOME}/bin/java&quot; -jar &quot;${BASE_DIR}/google-java-format-1.15.0-all-deps.jar&quot; &quot;$@&quot;
 fi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;可以明显感受到命令执行速度的提升。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[用 github.dev 写博客]]></title><description><![CDATA[上回说到可以 用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布，最近出了个 github.dev，这么一来写博客就更方便了。 上回文章在这里看 https://blakat.cc/write-and-publish-blog-with…]]></description><link>https://blakat.cc/write-blog-with-github-dev/</link><guid isPermaLink="false">https://blakat.cc/write-blog-with-github-dev/</guid><pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;上回说到可以 &lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布&lt;/a&gt;，最近出了个 github.dev，这么一来写博客就更方便了。&lt;/p&gt;
 &lt;h3&gt;上回文章在这里看&lt;/h3&gt;
@@ -109,13 +109,13 @@ fi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;安装 gatsby&lt;/h3&gt;
 &lt;p&gt;详细过程可以参考官方文档 &lt;a href=&quot;https://www.gatsbyjs.com/tutorial/&quot;&gt;https://www.gatsbyjs.com/tutorial/&lt;/a&gt;，我这里有完整的环境，只需要运行命令：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install -g gatsby-cli
-gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+npx gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;运行完了，把一些文件里面按照需要改一下就可以使用了：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;content/assets/
 src/components/bio.js
 gatsby-config.js&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;预览一下：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;gatsby develop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npx gatsby develop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;执行完命令打开 &lt;a href=&quot;http://localhost:8000/&quot;&gt;http://localhost:8000/&lt;/a&gt; 可以看到几个示范文章已经在那里了。&lt;/p&gt;
 &lt;p&gt;我还在 &lt;code class=&quot;language-text&quot;&gt;static&lt;/code&gt; 目录放置了一些文件，它们会被原封不动的复制到网站目录。
 比如 &lt;code class=&quot;language-text&quot;&gt;CNAME&lt;/code&gt; 用来在 github pages 绑定域名，后面会发布后就可以用到。&lt;/p&gt;
@@ -124,15 +124,15 @@ gatsby-config.js&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;我们看到，在 &lt;code class=&quot;language-text&quot;&gt;content/blog/&lt;/code&gt; 有一些目录，里面分别有一个 index.md，这就是文章了。比如我们参观一下这个 &lt;code class=&quot;language-text&quot;&gt;hello-world&lt;/code&gt;：&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
 title: Hello World
-date: &amp;quot;2015-05-01T22:12:03.284Z&amp;quot;
-description: &amp;quot;Hello World&amp;quot;
+date: &quot;2015-05-01T22:12:03.284Z&quot;
+description: &quot;Hello World&quot;
 ---
 
 This is my first post on my new fake blog! How exciting!
 ... 此处省略很多字&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;现在这些展示文章的任务就圆满完成了，我们愿意的话可以把它们删除。然后比着它们的格式，打开咱喜欢的编辑器，写起来吧！&lt;/p&gt;
 &lt;p&gt;安装一个工具 &lt;code class=&quot;language-text&quot;&gt;gh-pages&lt;/code&gt; 尝试发布一下，进行观赏：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install --save gh-pages
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install --save-dev gh-pages
 npx gh-pages -b public -d public -r https://github.com/liuchong/myblog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 &lt;a href=&quot;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&quot;&gt;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&lt;/a&gt;。
 在项目设置里面设置 github pages 分支，点击显示出来的那个链接博客就出来了。&lt;/p&gt;
@@ -169,7 +169,7 @@ jobs:
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;gh-pages -b public -d public -r https://***@github.com/liuchong/myblog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;h3&gt;从网页发布&lt;/h3&gt;
 &lt;p&gt;到仓库页面 &lt;a href=&quot;https://github.com/liuchong/myblog/tree/master/content/blog&quot;&gt;https://github.com/liuchong/myblog/tree/master/content/blog&lt;/a&gt; 点击 &lt;strong&gt;Add file -&gt; Create new file&lt;/strong&gt; 然后填入 &lt;code class=&quot;language-text&quot;&gt;my-title/index.md&lt;/code&gt;，写就行了。&lt;/p&gt;
-&lt;p&gt;我这篇博客就是在网页上面写的，其中 &lt;code class=&quot;language-text&quot;&gt;date&lt;/code&gt; 条目我手工写的，所以简化了一下，像 &lt;code class=&quot;language-text&quot;&gt;date: &amp;quot;2020-12-17&amp;quot;&lt;/code&gt; 这样也是可以的，不用那么精确。&lt;/p&gt;
+&lt;p&gt;我这篇博客就是在网页上面写的，其中 &lt;code class=&quot;language-text&quot;&gt;date&lt;/code&gt; 条目我手工写的，所以简化了一下，像 &lt;code class=&quot;language-text&quot;&gt;date: &quot;2020-12-17&quot;&lt;/code&gt; 这样也是可以的，不用那么精确。&lt;/p&gt;
 &lt;p&gt;不太推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，有点吓人 👀&lt;/p&gt;</content:encoded></item><item><title><![CDATA[simple snowflake in go and rust]]></title><description><![CDATA[https://github.com/liuchong/sf https://github.com/liuchong/fid]]></description><link>https://blakat.cc/simple-snowflake-in-go-and-rust/</link><guid isPermaLink="false">https://blakat.cc/simple-snowflake-in-go-and-rust/</guid><pubDate>Sat, 16 Mar 2019 17:39:21 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/sf&quot;&gt;https://github.com/liuchong/sf&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/fid&quot;&gt;https://github.com/liuchong/fid&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[rewrite blockchain tutorial in rust]]></title><description><![CDATA[简单重写了个 Rust 版的 blockchain-tuorial 看了篇文章 https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc…]]></description><link>https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</link><guid isPermaLink="false">https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</guid><pubDate>Wed, 06 Mar 2019 04:44:30 GMT</pubDate><content:encoded>&lt;h1&gt;简单重写了个 Rust 版的 blockchain-tuorial&lt;/h1&gt;
 &lt;p&gt;看了篇文章&lt;/p&gt;
@@ -181,10 +181,7 @@ jobs:
 &lt;/blockquote&gt;
 &lt;p&gt;想着没几行代码，就用 Rust 简单写了下，写得不是多严谨。&lt;/p&gt;
 &lt;p&gt;我的代码在
-&lt;a href=&quot;https://github.com/liuchong/blockchain-tutorial&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/bomb.png&quot; alt=&quot;@liuchong/blockchain-tutorial&quot; width=&quot;32&quot; height=&quot;32&quot; align=&quot;bottom&quot;/&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[写一个第三方 cargo 子命令]]></title><description><![CDATA[动机 写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。 动手 调研 阅读了 cargo 官方 wiki 阅读了 cargo 官方 reference 观察目录 ~/.cargo/bin…]]></description><link>https://blakat.cc/write-a-third-party-cargo-subcommand/</link><guid isPermaLink="false">https://blakat.cc/write-a-third-party-cargo-subcommand/</guid><pubDate>Tue, 18 Dec 2018 13:26:11 GMT</pubDate><content:encoded>&lt;h3&gt;动机&lt;/h3&gt;
-&lt;p&gt;写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。&lt;/p&gt;
-&lt;h3&gt;动手&lt;/h3&gt;
-&lt;h6&gt;调研&lt;/h6&gt;
+&lt;a href=&quot;https://github.com/liuchong/blockchain-tutorial&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/bomb.png&quot; alt=&quot;@liuchong/blockchain-tutorial&quot; width=&quot;32&quot; height=&quot;32&quot; align=&quot;bottom&quot;/&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[写一个第三方 cargo 子命令]]></title><description><![CDATA[写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。 阅读了 cargo 官方 wiki 阅读了 cargo 官方 reference 观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls…]]></description><link>https://blakat.cc/write-a-third-party-cargo-subcommand/</link><guid isPermaLink="false">https://blakat.cc/write-a-third-party-cargo-subcommand/</guid><pubDate>Tue, 18 Dec 2018 13:26:11 GMT</pubDate><content:encoded>&lt;p&gt;写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。&lt;/p&gt;
 &lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommands&quot;&gt;wiki&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://doc.rust-lang.org/cargo/reference/external-tools.html&quot;&gt;reference&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls、rustfmt 等命令，是可以直接运行的，还有一些 cargo- 开头的命令，比如 cargo-clippy、cargo-fmt，就是运行 cargo clippy、cargo fmt 等命令时执行的程序。&lt;/p&gt;
@@ -193,17 +190,17 @@ jobs:
 ln -s racer cargo-racer
 cargo racer&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;输出比较不是很正常，看上去是把字符串“racer”当做参数传给了命令 racer，不过也对刚才的调查做了简单证实。&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;error: Found argument &amp;#39;racer&amp;#39; which wasn&amp;#39;t expected, or isn&amp;#39;t valid in this context
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;error: Found argument &apos;racer&apos; which wasn&apos;t expected, or isn&apos;t valid in this context
 
 USAGE:
 ...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h6&gt;编码&lt;/h6&gt;
+&lt;h4&gt;编码&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;创建项目 cargo new cargo-x&lt;/li&gt;
 &lt;li&gt;写代码&lt;/li&gt;
 &lt;li&gt;发布项目 cargo publish&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h6&gt;仓库&lt;/h6&gt;
+&lt;h4&gt;仓库&lt;/h4&gt;
 &lt;p&gt;写了一个非常简单的版本，代码在
 &lt;a href=&quot;https://github.com/liuchong/cargo-x&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/bomb.png&quot; alt=&quot;@liuchong/cargo-x&quot; width=&quot;32&quot; height=&quot;32&quot; align=&quot;bottom&quot;/&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ngrok tunnels example]]></title><description><![CDATA[Created an example repository of simple ngrok tunnels on github:
 ngrok-tunnels-example Note: Maybe frp is a better choice.]]></description><link>https://blakat.cc/ngrok-tunnels-example/</link><guid isPermaLink="false">https://blakat.cc/ngrok-tunnels-example/</guid><pubDate>Tue, 10 Jul 2018 13:16:55 GMT</pubDate><content:encoded>&lt;p&gt;Created an example repository of simple ngrok tunnels on github:
