@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import UtterancesComments from "../components/utterances-comments"
+import GiscusComments from "../components/giscus-comments"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -28,7 +28,7 @@ const BlogPostTemplate = ({
           itemProp="articleBody"
         />
         <hr />
-        <UtterancesComments />
+        <GiscusComments />
         <footer>
           <Bio />
         </footer>
