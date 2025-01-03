@@ -9,7 +9,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `黑猫博客`,
+    title: `黑貓博客`,
     author: {
       name: `刘冲`,
       summary: `who lives and works building things.`,
@@ -111,7 +111,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `黑猫博客`,
+        name: `黑貓博客`,
         short_name: `bkb`,
         start_url: `/`,
         background_color: `#ffffff`,
