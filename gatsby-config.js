@@ -9,7 +9,7 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `大大大大大`,
+    title: `黑猫博客`,
     author: {
       name: `刘冲`,
       summary: `who lives and works building things.`,
