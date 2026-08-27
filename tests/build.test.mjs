@@ -45,6 +45,8 @@ test("builds an external Markdown and MDX workspace", async context => {
   assert.match(home, /SAOS Example/)
   assert.match(home, /href="\/journal\/hello\/"/)
   assert.match(home, /href="\/journal\/assets\//)
+  assert.match(home, /Built with<!-- --> <a href="https:\/\/vite\.dev">Vite<\/a>/)
+  assert.match(home, /and <a href="https:\/\/github\.com\/liuchong\/saos">SAOS<\/a>/)
   assert.match(post, /This post is written in/)
   assert.match(post, /"repo":"example\/saos-site"/)
   assert.match(mdxPost, /<strong>MDX element<\/strong>/)

@@ -108,6 +108,12 @@ export default {
     category: "Comments",
     categoryId: "...",
   },
+  footer: {
+    links: [
+      { label: "Vite", href: "https://vite.dev" },
+      { label: "My source", href: "https://github.com/ada/blog" },
+    ],
+  },
 }
 ```
 

@@ -5,6 +5,14 @@ import { withBasePath } from "../path-utils.js"
 const Layout = ({ pathname, site, title, children }) => {
   const isRootPath = pathname === "/"
   const homeUrl = withBasePath("/", site?.basePath)
+  const footerLinks = site?.footer?.links?.length
+    ? site.footer.links
+    : [
+        {
+          label: site?.footer?.label || "SAOS",
+          href: site?.footer?.href,
+        },
+      ]
   let header
 
   if (isRootPath) {
@@ -28,8 +36,12 @@ const Layout = ({ pathname, site, title, children }) => {
       {site?.footer !== false && (
         <footer>
           © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href={site?.footer?.href}>{site?.footer?.label || "SAOS"}</a>
+          {footerLinks.map((link, index) => (
+            <React.Fragment key={`${link.href}-${link.label}`}>
+              {index === 0 ? ` ` : ` and `}
+              <a href={link.href}>{link.label}</a>
+            </React.Fragment>
+          ))}
         </footer>
       )}
     </div>
