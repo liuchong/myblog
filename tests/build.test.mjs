@@ -70,7 +70,7 @@ test("declares a valid composite action contract", async () => {
     await fs.readFile(path.join(repositoryRoot, "action.yml"), "utf8"),
   )
 
-  assert.equal(metadata.name, "SAOS Blog")
+  assert.equal(metadata.name, "SAOS")
   assert.equal(metadata.runs.using, "composite")
   assert.equal(metadata.inputs.content.default, "content/blog")
   assert.equal(
