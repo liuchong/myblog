@@ -1,22 +1,20 @@
 import * as React from "react"
-import { Link } from "gatsby"
 
-const Layout = ({ location, title, children }) => {
-  const rootPath = `${__PATH_PREFIX__}/`
-  const isRootPath = location.pathname === rootPath
+const Layout = ({ pathname, title, children }) => {
+  const isRootPath = pathname === "/"
   let header
 
   if (isRootPath) {
     header = (
       <h1 className="main-heading">
-        <Link to="/">{title}</Link>
+        <a href="/">{title}</a>
       </h1>
     )
   } else {
     header = (
-      <Link className="header-link-home" to="/">
+      <a className="header-link-home" href="/">
         {title}
-      </Link>
+      </a>
     )
   }
 
@@ -27,7 +25,7 @@ const Layout = ({ location, title, children }) => {
       <footer>
         © {new Date().getFullYear()}, Built with
         {` `}
-        <a href="https://www.gatsbyjs.com">Gatsby</a>
+        <a href="https://vite.dev">Vite</a>
       </footer>
     </div>
   )

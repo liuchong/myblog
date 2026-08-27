@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 
 const GiscusComments = () => {
   const ref = useRef()
@@ -28,7 +28,7 @@ const GiscusComments = () => {
     })
 
     setTimeout(() => {
-      ref.current.append(script)
+      ref.current?.append(script)
     }, 300)
   }, [])
 
