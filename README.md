@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-      - uses: liuchong/saos@master
+      - uses: liuchong/saos@v0.0.1
       - uses: actions/upload-pages-artifact@v4
         with:
           path: dist
@@ -58,7 +58,7 @@ jobs:
 ```
 
 The workflow consumes `content/blog`, `saos.config.mjs`, and `static` by
-default. Pin a release tag instead of `master` after releases are available.
+default.
 
 ## Write
 
@@ -157,4 +157,4 @@ pipeline; all implementation source ships with the Action.
 
 ## License
 
-[0BSD](LICENSE)
+[0PL](https://license.pub/0pl/) ([full text](LICENSE))

@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "description": "A source-first, self-building React blog for GitHub Actions.",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "author": "刘冲",
   "bugs": {
     "url": "https://github.com/liuchong/saos/issues"
@@ -38,7 +38,7 @@
     "react",
     "markdown"
   ],
-  "license": "0BSD",
+  "license": "SEE LICENSE IN LICENSE",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/liuchong/saos.git"
