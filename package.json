@@ -5,7 +5,7 @@
   "version": "0.1.0",
   "author": "刘冲",
   "bugs": {
-    "url": "https://github.com/liuchong/my-blog/issues"
+    "url": "https://github.com/liuchong/myblog/issues"
   },
   "dependencies": {
     "@fontsource-variable/montserrat": "^5.0.19",
@@ -37,7 +37,7 @@
   "license": "0BSD",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liuchong/my-blog.git"
+    "url": "git+https://github.com/liuchong/myblog.git"
   },
   "scripts": {
     "build": "gatsby build",
