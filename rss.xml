@@ -1,211 +1,241 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[黑貓博客 RSS Feed]]></title><description><![CDATA[刘冲的个人博客。]]></description><link>https://blakat.cc</link><generator>GatsbyJS</generator><lastBuildDate>Thu, 27 Aug 2026 12:25:03 GMT</lastBuildDate><item><title><![CDATA[使用 google-java-format]]></title><description><![CDATA[google-java-format是一款优秀的 Java 源代码格式化工具，使用的是Google Java Style，下面让我们来看一下怎么配置。 配置项目 使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts…]]></description><link>https://blakat.cc/use-google-java-format/</link><guid isPermaLink="false">https://blakat.cc/use-google-java-format/</guid><pubDate>Sat, 11 Jun 2022 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/google/google-java-format&quot;&gt;google-java-format&lt;/a&gt;是一款优秀的 Java 源代码格式化工具，使用的是&lt;a href=&quot;https://google.github.io/styleguide/javaguide.html&quot;&gt;Google Java Style&lt;/a&gt;，下面让我们来看一下怎么配置。&lt;/p&gt;
-&lt;h3&gt;配置项目&lt;/h3&gt;
-&lt;p&gt;使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts 里面加入这两项配置：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
-  id(&quot;com.diffplug.spotless&quot;) version &quot;6.7.0&quot;
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  spotless {
-    java {
-      target(&quot;src/*/java/**/*.java&quot;)
-      importOrder()
-      removeUnusedImports()
-      trimTrailingWhitespace()
-      indentWithSpaces(4)
-      endWithNewline()
-      googleJavaFormat()
-    }
-  }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;我们不想在每个子项目里面都重复配置，所以可以在 &lt;code class=&quot;language-text&quot;&gt;parent&lt;/code&gt; build.gradle.kts 里面这样配置：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;plugins {
-  id(&quot;com.diffplug.spotless&quot;) version &quot;6.7.0&quot;
-}
-
-allprojects {
-  apply(plugin = &quot;com.diffplug.spotless&quot;)
-
-  afterEvaluate {
-    val spotless = tasks.findByName(&quot;spotlessCheck&quot;)
-      if (spotless != null) {
-        tasks.withType&amp;lt;Test&gt; {
-          dependsOn(spotless)
-        }
-    }
-  }
-
-  spotless {
-    java {
-      target(&quot;src/*/java/**/*.java&quot;)
-      importOrder()
-      removeUnusedImports()
-      trimTrailingWhitespace()
-      indentWithSpaces(4)
-      endWithNewline()
-      googleJavaFormat()
-    }
-  }
-}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;其中 &lt;code class=&quot;language-text&quot;&gt;afterEvaluate&lt;/code&gt; 一项配置使得每当我们测试的时候，先检查代码格式化情况，更好地保持保证代码一直处于格式化的状态。&lt;/p&gt;
-&lt;p&gt;或者如果想省事儿也可以这样配置，让我们测试、编译代码的时候都自动进行代码格式化：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  afterEvaluate {
-    val spotless = tasks.findByName(&quot;spotlessApply&quot;)
-      if (spotless != null) {
-        tasks.withType&amp;lt;JavaCompile&gt; {
-          dependsOn(spotless)
-        }
-    }
-  }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;配置编辑器&lt;/h3&gt;
-&lt;p&gt;这里使用了 Emacs 编辑器，需要加载 &lt;a href=&quot;https://raw.githubusercontent.com/google/google-java-format/master/core/src/main/scripts/google-java-format.el&quot;&gt;google-java-format.el&lt;/a&gt;，将文件下载下来放入 Emacs 可以正常加载的目录。&lt;/p&gt;
-&lt;p&gt;需要下载或者编译 google-java-format，可以直接从 &lt;a href=&quot;https://github.com/google/google-java-format/releases&quot;&gt;发布页面&lt;/a&gt; 进行下载。下载后将如下脚本保存成名为 &lt;code class=&quot;language-text&quot;&gt;google-java-format&lt;/code&gt; 的文件，并执行 chmod +x google-java-format。&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
-exec java -jar &quot;/path/to/google-java-format.jar&quot; &quot;$@&quot;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;还需要配置 emacs，一个典型的配置如下：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;  (require &apos;google-java-format)
-  (setq google-java-format-executable &quot;/path/to/google-java-format&quot;)
-    (add-hook &apos;java-mode-hook (lambda ()
-                              (add-hook &apos;before-save-hook &apos;google-java-format-buffer nil t)
-                              (global-set-key (kbd &quot;C-c SPC&quot;) &apos;google-java-format)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;配置了保存时自动格式化，并绑定了一个快捷键。&lt;/p&gt;
-&lt;p&gt;Emacs 编辑器在 &lt;code class=&quot;language-text&quot;&gt;java-mode&lt;/code&gt; 的缩进可能是 4，为了让写代码的时候更舒服一点，如果不想全局配置，可以将如下配置写入项目根目录的 &lt;code class=&quot;language-text&quot;&gt;.dir-locals.el&lt;/code&gt; 文件：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;((java-mode
-  (c-basic-offset . 2)
-  (tab-width . 2)
-  (indent-tabs-mode . nil)))&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;Native Image 编译&lt;/h3&gt;
-&lt;p&gt;前面直接使用 Java 执行 jar 文件，会明显感觉到延迟。如果在意的话，可以使用 &lt;a href=&quot;https://www.graalvm.org/22.1/reference-manual/native-image/&quot;&gt;Native Image&lt;/a&gt; 编译。&lt;/p&gt;
-&lt;p&gt;安装 GraalVM 后将其配置到 &lt;code class=&quot;language-text&quot;&gt;JAVA_HOME&lt;/code&gt;，并执行 &lt;code class=&quot;language-text&quot;&gt;gu install native-image&lt;/code&gt; 来安装 &lt;code class=&quot;language-text&quot;&gt;Native Image&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;然后下载 google-java-format 源码并编译：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;git clone git@github.com:google/google-java-format.git
-cd google-java-format
-mvn -Pnative -DskipTests package&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;编译完成后从 target 目录将 &lt;code class=&quot;language-text&quot;&gt;google-java-format&lt;/code&gt; 可执行文件复制到合适的路径，配置到编辑器中即可。为了适配不同的环境，我将 MacOS 上编译的文件命名为 google-java-format.macos，还是用脚本启动。&lt;/p&gt;
-&lt;p&gt;脚本大体是这个样子：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;#!/bin/bash
-
-# export JAVA_HOME=...
-export BASE_DIR=&quot;$( cd &quot;$( dirname &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;amp;&amp;amp; pwd )&quot;
-
-if [ $(uname) == &apos;Darwin&apos; ];
-then
-    ${BASE_DIR}/google-java-format.macos &quot;$@&quot;
-else
-    exec &quot;${JAVA_HOME}/bin/java&quot; -jar &quot;${BASE_DIR}/google-java-format-1.15.0-all-deps.jar&quot; &quot;$@&quot;
-fi&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;可以明显感受到命令执行速度的提升。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[用 github.dev 写博客]]></title><description><![CDATA[上回说到可以 用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布，最近出了个 github.dev，这么一来写博客就更方便了。 上回文章在这里看 https://blakat.cc/write-and-publish-blog-with…]]></description><link>https://blakat.cc/write-blog-with-github-dev/</link><guid isPermaLink="false">https://blakat.cc/write-blog-with-github-dev/</guid><pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;上回说到可以 &lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布&lt;/a&gt;，最近出了个 github.dev，这么一来写博客就更方便了。&lt;/p&gt;
-&lt;h3&gt;上回文章在这里看&lt;/h3&gt;
-&lt;p&gt;&lt;a href=&quot;https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/&quot;&gt;https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&quot;&gt;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md&lt;/a&gt;&lt;/p&gt;
-&lt;h3&gt;这次使用 github.dev 写&lt;/h3&gt;
-&lt;p&gt;之前 &lt;a href=&quot;https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md#%E4%BB%8E%E7%BD%91%E9%A1%B5%E5%8F%91%E5%B8%83&quot;&gt;从网页发布&lt;/a&gt; 一节提到：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;到仓库页面 &lt;a href=&quot;https://github.com/liuchong/myblog/tree/master/content/blog&quot;&gt;https://github.com/liuchong/myblog/tree/master/content/blog&lt;/a&gt; 点击 &lt;strong&gt;Add file -&gt; Create new file&lt;/strong&gt; 然后填入 &lt;code class=&quot;language-text&quot;&gt;my-title/index.md&lt;/code&gt;，写就行了。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;现在可以直接访问 &lt;a href=&quot;https://github.dev/liuchong/myblog&quot;&gt;https://github.dev/liuchong/myblog&lt;/a&gt; 然后在 content/blog 下面新建一个目录比如 &lt;a href=&quot;https://github.com/liuchong/myblog/tree/master/content/blog/write-blog-with-github-dev&quot;&gt;write-blog-with-github-dev&lt;/a&gt;，再创建一个 index.md，开始写就好了。跟普通编辑器一样，可以打开多个文件，可以预览 markdown。在浏览器里写东西总感觉不放心，好像一不小心就会丢了似的，实际上不用担心：打开的文件标签可以关闭重新打开，浏览器标签可以关闭甚至浏览器也可以整个关闭然后重新打开，文章是不会丢失的。&lt;/p&gt;
-&lt;p&gt;写完切换到源代码管理标签，提交就行了，之前我们有设置好的发布工作流，运行完就可以看到文章了。&lt;/p&gt;
-&lt;p&gt;比如这篇就是这样写的，也不是特别有用不过还行，特定场景下还是会有些作用的罢。&lt;/p&gt;</content:encoded></item><item><title><![CDATA[用 gatsby 和 github workflow 写博客]]></title><description><![CDATA[这里是本博客的仓库。 之前用的也是 gatsby，自己改出来了一个 gatsby-starter-blog-typescript，但已经年久失修不想维护了。
-于是直接把博客的清空了仓库，更新到最新的官方模板 gatsby-starter-blog。 安装 gatsby…]]></description><link>https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</link><guid isPermaLink="false">https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</guid><pubDate>Thu, 17 Dec 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;这里是本&lt;a href=&quot;/&quot;&gt;博客&lt;/a&gt;的&lt;a href=&quot;https://github.com/liuchong/myblog&quot;&gt;仓库&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;之前用的也是 &lt;a href=&quot;https://www.gatsbyjs.com/&quot;&gt;gatsby&lt;/a&gt;，自己改出来了一个 &lt;a href=&quot;https://github.com/liuchong/gatsby-starter-blog-typescript&quot;&gt;gatsby-starter-blog-typescript&lt;/a&gt;，但已经年久失修不想维护了。
-于是直接把博客的清空了仓库，更新到最新的官方模板 &lt;a href=&quot;https://github.com/gatsbyjs/gatsby-starter-blog&quot;&gt;gatsby-starter-blog&lt;/a&gt;。&lt;/p&gt;
-&lt;h3&gt;安装 gatsby&lt;/h3&gt;
-&lt;p&gt;详细过程可以参考官方文档 &lt;a href=&quot;https://www.gatsbyjs.com/tutorial/&quot;&gt;https://www.gatsbyjs.com/tutorial/&lt;/a&gt;，我这里有完整的环境，只需要运行命令：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install -g gatsby-cli
-npx gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;运行完了，把一些文件里面按照需要改一下就可以使用了：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;content/assets/
-src/components/bio.js
-gatsby-config.js&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;预览一下：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npx gatsby develop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;执行完命令打开 &lt;a href=&quot;http://localhost:8000/&quot;&gt;http://localhost:8000/&lt;/a&gt; 可以看到几个示范文章已经在那里了。&lt;/p&gt;
-&lt;p&gt;我还在 &lt;code class=&quot;language-text&quot;&gt;static&lt;/code&gt; 目录放置了一些文件，它们会被原封不动的复制到网站目录。
-比如 &lt;code class=&quot;language-text&quot;&gt;CNAME&lt;/code&gt; 用来在 github pages 绑定域名，后面会发布后就可以用到。&lt;/p&gt;
-&lt;p&gt;安装完后，可以创建一个 github 仓库，我这里就是 &lt;code class=&quot;language-text&quot;&gt;myblog&lt;/code&gt;，把代码提交后推到仓库里。&lt;/p&gt;
-&lt;h3&gt;写文章&lt;/h3&gt;
-&lt;p&gt;我们看到，在 &lt;code class=&quot;language-text&quot;&gt;content/blog/&lt;/code&gt; 有一些目录，里面分别有一个 index.md，这就是文章了。比如我们参观一下这个 &lt;code class=&quot;language-text&quot;&gt;hello-world&lt;/code&gt;：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;---
-title: Hello World
-date: &quot;2015-05-01T22:12:03.284Z&quot;
-description: &quot;Hello World&quot;
----
-
-This is my first post on my new fake blog! How exciting!
-... 此处省略很多字&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;现在这些展示文章的任务就圆满完成了，我们愿意的话可以把它们删除。然后比着它们的格式，打开咱喜欢的编辑器，写起来吧！&lt;/p&gt;
-&lt;p&gt;安装一个工具 &lt;code class=&quot;language-text&quot;&gt;gh-pages&lt;/code&gt; 尝试发布一下，进行观赏：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;npm install --save-dev gh-pages
-npx gh-pages -b public -d public -r https://github.com/liuchong/myblog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 &lt;a href=&quot;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&quot;&gt;https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/&lt;/a&gt;。
-在项目设置里面设置 github pages 分支，点击显示出来的那个链接博客就出来了。&lt;/p&gt;
-&lt;p&gt;到目前为止，还不错是吧！&lt;/p&gt;
-&lt;h3&gt;设置 workflow&lt;/h3&gt;
-&lt;p&gt;你看，写完有一步发布过程，挺麻烦的；而且什么时候没有环境或者甚至只有一个浏览器，那就发布不了了。&lt;/p&gt;
-&lt;p&gt;幸亏有 github actions，用上它就方便多了。&lt;/p&gt;
-&lt;p&gt;我直接把 workflow 配置文件 &lt;code class=&quot;language-text&quot;&gt;.github/workflows/publish.yml&lt;/code&gt; 贴到这里，假设源码提交到了 &lt;code class=&quot;language-text&quot;&gt;master&lt;/code&gt; 分支：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;name: Publish
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - name: Publish
-        run: |
-          git config user.email ${{github.actor}}@users.noreply.github.com
-          git config user.name ${{github.actor}}
-          npm install
-          npx gatsby build
-          npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;要注意的是 &lt;code class=&quot;language-text&quot;&gt;secrets.PUBLISH&lt;/code&gt; 这个要手动在 &lt;a href=&quot;https://github.com/settings/tokens&quot;&gt;https://github.com/settings/tokens&lt;/a&gt; 创建 token，
-然后再到项目里面，比如我就是在 &lt;a href=&quot;https://github.com/liuchong/myblog/settings/secrets/actions&quot;&gt;https://github.com/liuchong/myblog/settings/secrets/actions&lt;/a&gt;，添加一个 secrets 项，
-&lt;code class=&quot;language-text&quot;&gt;Name&lt;/code&gt;那项就填的 &lt;code class=&quot;language-text&quot;&gt;PUBLISH&lt;/code&gt;。&lt;/p&gt;
-&lt;p&gt;说明一下，这个链接 &lt;a href=&quot;https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow&quot;&gt;https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow&lt;/a&gt; 上面还有个 &lt;code class=&quot;language-text&quot;&gt;secrets.GITHUB_TOKEN&lt;/code&gt;，
-说是自动创建的，不过我没有使用成功。&lt;/p&gt;
-&lt;p&gt;如果发布有问题，可以试着手动执行一下命令测试，注意 &lt;code class=&quot;language-text&quot;&gt;***&lt;/code&gt; 改成自己的 secret：&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;gh-pages -b public -d public -r https://***@github.com/liuchong/myblog.git&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h3&gt;从网页发布&lt;/h3&gt;
-&lt;p&gt;到仓库页面 &lt;a href=&quot;https://github.com/liuchong/myblog/tree/master/content/blog&quot;&gt;https://github.com/liuchong/myblog/tree/master/content/blog&lt;/a&gt; 点击 &lt;strong&gt;Add file -&gt; Create new file&lt;/strong&gt; 然后填入 &lt;code class=&quot;language-text&quot;&gt;my-title/index.md&lt;/code&gt;，写就行了。&lt;/p&gt;
-&lt;p&gt;我这篇博客就是在网页上面写的，其中 &lt;code class=&quot;language-text&quot;&gt;date&lt;/code&gt; 条目我手工写的，所以简化了一下，像 &lt;code class=&quot;language-text&quot;&gt;date: &quot;2020-12-17&quot;&lt;/code&gt; 这样也是可以的，不用那么精确。&lt;/p&gt;
-&lt;p&gt;不太推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，有点吓人 👀&lt;/p&gt;</content:encoded></item><item><title><![CDATA[simple snowflake in go and rust]]></title><description><![CDATA[https://github.com/liuchong/sf https://github.com/liuchong/fid]]></description><link>https://blakat.cc/simple-snowflake-in-go-and-rust/</link><guid isPermaLink="false">https://blakat.cc/simple-snowflake-in-go-and-rust/</guid><pubDate>Sat, 16 Mar 2019 17:39:21 GMT</pubDate><content:encoded>&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/sf&quot;&gt;https://github.com/liuchong/sf&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/liuchong/fid&quot;&gt;https://github.com/liuchong/fid&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[rewrite blockchain tutorial in rust]]></title><description><![CDATA[简单重写了个 Rust 版的 blockchain-tuorial 看了篇文章 https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc…]]></description><link>https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</link><guid isPermaLink="false">https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</guid><pubDate>Wed, 06 Mar 2019 04:44:30 GMT</pubDate><content:encoded>&lt;h1&gt;简单重写了个 Rust 版的 blockchain-tuorial&lt;/h1&gt;
-&lt;p&gt;看了篇文章&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&quot;&gt;https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;a href=&quot;https://github.com/mycoralhealth/blockchain-tutorial&quot;&gt;https://github.com/mycoralhealth/blockchain-tutorial&lt;/a&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;想着没几行代码，就用 Rust 简单写了下，写得不是多严谨。&lt;/p&gt;
-&lt;p&gt;我的代码在
-&lt;a href=&quot;https://github.com/liuchong/blockchain-tutorial&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/bomb.png&quot; alt=&quot;@liuchong/blockchain-tutorial&quot; width=&quot;32&quot; height=&quot;32&quot; align=&quot;bottom&quot;/&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[写一个第三方 cargo 子命令]]></title><description><![CDATA[写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。 阅读了 cargo 官方 wiki 阅读了 cargo 官方 reference 观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls…]]></description><link>https://blakat.cc/write-a-third-party-cargo-subcommand/</link><guid isPermaLink="false">https://blakat.cc/write-a-third-party-cargo-subcommand/</guid><pubDate>Tue, 18 Dec 2018 13:26:11 GMT</pubDate><content:encoded>&lt;p&gt;写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。&lt;/p&gt;
-&lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommands&quot;&gt;wiki&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;阅读了 cargo 官方 &lt;a href=&quot;https://doc.rust-lang.org/cargo/reference/external-tools.html&quot;&gt;reference&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls、rustfmt 等命令，是可以直接运行的，还有一些 cargo- 开头的命令，比如 cargo-clippy、cargo-fmt，就是运行 cargo clippy、cargo fmt 等命令时执行的程序。&lt;/p&gt;
-&lt;p&gt;试一下，&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;cd ~/.cargo/bin/
-ln -s racer cargo-racer
-cargo racer&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;输出比较不是很正常，看上去是把字符串“racer”当做参数传给了命令 racer，不过也对刚才的调查做了简单证实。&lt;/p&gt;
-&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;error: Found argument &apos;racer&apos; which wasn&apos;t expected, or isn&apos;t valid in this context
-
-USAGE:
-...&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
-&lt;h4&gt;编码&lt;/h4&gt;
-&lt;ol&gt;
-&lt;li&gt;创建项目 cargo new cargo-x&lt;/li&gt;
-&lt;li&gt;写代码&lt;/li&gt;
-&lt;li&gt;发布项目 cargo publish&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4&gt;仓库&lt;/h4&gt;
-&lt;p&gt;写了一个非常简单的版本，代码在
-&lt;a href=&quot;https://github.com/liuchong/cargo-x&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;/images/bomb.png&quot; alt=&quot;@liuchong/cargo-x&quot; width=&quot;32&quot; height=&quot;32&quot; align=&quot;bottom&quot;/&gt;&lt;/a&gt;&lt;/p&gt;</content:encoded></item><item><title><![CDATA[ngrok tunnels example]]></title><description><![CDATA[Created an example repository of simple ngrok tunnels on github:
-ngrok-tunnels-example Note: Maybe frp is a better choice.]]></description><link>https://blakat.cc/ngrok-tunnels-example/</link><guid isPermaLink="false">https://blakat.cc/ngrok-tunnels-example/</guid><pubDate>Tue, 10 Jul 2018 13:16:55 GMT</pubDate><content:encoded>&lt;p&gt;Created an example repository of simple ngrok tunnels on github:
-&lt;a href=&quot;https://github.com/liuchong/ngrok-tunnels-example&quot;&gt;ngrok-tunnels-example&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Note:&lt;br&gt;
-Maybe &lt;a href=&quot;https://github.com/fatedier/frp&quot;&gt;frp&lt;/a&gt; is a better choice.&lt;/p&gt;</content:encoded></item><item><title><![CDATA[nginx router example]]></title><description><![CDATA[Created an example repository of simple dynamic routing application to show the usage of openresty on github:
-ngx-router-example]]></description><link>https://blakat.cc/nginx-router-example/</link><guid isPermaLink="false">https://blakat.cc/nginx-router-example/</guid><pubDate>Mon, 06 Mar 2017 01:33:15 GMT</pubDate><content:encoded>&lt;p&gt;Created an example repository of simple dynamic routing application to show the usage of openresty on github:
-&lt;a href=&quot;https://github.com/liuchong/ngx-router-example&quot;&gt;ngx-router-example&lt;/a&gt;&lt;/p&gt;</content:encoded></item></channel></rss>
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+<title>黑貓博客 RSS Feed</title>
+<description>刘冲的个人博客。</description>
+<link>https://blakat.cc/</link>
+<item><title>使用 google-java-format</title><description>使用 google-java-format 格式化 Java 代码</description><link>https://blakat.cc/use-google-java-format/</link><guid>https://blakat.cc/use-google-java-format/</guid><pubDate>Sat, 11 Jun 2022 00:00:00 GMT</pubDate><content:encoded><![CDATA[<p><a href="https://github.com/google/google-java-format">google-java-format</a>是一款优秀的 Java 源代码格式化工具，使用的是<a href="https://google.github.io/styleguide/javaguide.html">Google Java Style</a>，下面让我们来看一下怎么配置。</p>
+<h3>配置项目</h3>
+<p>使用了 Gradle 的 Kotlin DSL，我们可以在 build.gradle.kts 里面加入这两项配置：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">plugins {
+</span><span class="code-line">  id("com.diffplug.spotless") version "6.7.0"
+</span><span class="code-line">}
+</span></code></pre></div>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">  spotless {
+</span><span class="code-line">    java {
+</span><span class="code-line">      target("src/*/java/**/*.java")
+</span><span class="code-line">      importOrder()
+</span><span class="code-line">      removeUnusedImports()
+</span><span class="code-line">      trimTrailingWhitespace()
+</span><span class="code-line">      indentWithSpaces(4)
+</span><span class="code-line">      endWithNewline()
+</span><span class="code-line">      googleJavaFormat()
+</span><span class="code-line">    }
+</span><span class="code-line">  }
+</span></code></pre></div>
+<p>我们不想在每个子项目里面都重复配置，所以可以在 <code>parent</code> build.gradle.kts 里面这样配置：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">plugins {
+</span><span class="code-line">  id("com.diffplug.spotless") version "6.7.0"
+</span><span class="code-line">}
+</span><span class="code-line">
+</span><span class="code-line">allprojects {
+</span><span class="code-line">  apply(plugin = "com.diffplug.spotless")
+</span><span class="code-line">
+</span><span class="code-line">  afterEvaluate {
+</span><span class="code-line">    val spotless = tasks.findByName("spotlessCheck")
+</span><span class="code-line">      if (spotless != null) {
+</span><span class="code-line">        tasks.withType&#x3C;Test> {
+</span><span class="code-line">          dependsOn(spotless)
+</span><span class="code-line">        }
+</span><span class="code-line">    }
+</span><span class="code-line">  }
+</span><span class="code-line">
+</span><span class="code-line">  spotless {
+</span><span class="code-line">    java {
+</span><span class="code-line">      target("src/*/java/**/*.java")
+</span><span class="code-line">      importOrder()
+</span><span class="code-line">      removeUnusedImports()
+</span><span class="code-line">      trimTrailingWhitespace()
+</span><span class="code-line">      indentWithSpaces(4)
+</span><span class="code-line">      endWithNewline()
+</span><span class="code-line">      googleJavaFormat()
+</span><span class="code-line">    }
+</span><span class="code-line">  }
+</span><span class="code-line">}
+</span></code></pre></div>
+<p>其中 <code>afterEvaluate</code> 一项配置使得每当我们测试的时候，先检查代码格式化情况，更好地保持保证代码一直处于格式化的状态。</p>
+<p>或者如果想省事儿也可以这样配置，让我们测试、编译代码的时候都自动进行代码格式化：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">  afterEvaluate {
+</span><span class="code-line">    val spotless = tasks.findByName("spotlessApply")
+</span><span class="code-line">      if (spotless != null) {
+</span><span class="code-line">        tasks.withType&#x3C;JavaCompile> {
+</span><span class="code-line">          dependsOn(spotless)
+</span><span class="code-line">        }
+</span><span class="code-line">    }
+</span><span class="code-line">  }
+</span></code></pre></div>
+<h3>配置编辑器</h3>
+<p>这里使用了 Emacs 编辑器，需要加载 <a href="https://raw.githubusercontent.com/google/google-java-format/master/core/src/main/scripts/google-java-format.el">google-java-format.el</a>，将文件下载下来放入 Emacs 可以正常加载的目录。</p>
+<p>需要下载或者编译 google-java-format，可以直接从 <a href="https://github.com/google/google-java-format/releases">发布页面</a> 进行下载。下载后将如下脚本保存成名为 <code>google-java-format</code> 的文件，并执行 chmod +x google-java-format。</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">#!/bin/bash
+</span><span class="code-line">exec java -jar "/path/to/google-java-format.jar" "$@"
+</span></code></pre></div>
+<p>还需要配置 emacs，一个典型的配置如下：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">  (require 'google-java-format)
+</span><span class="code-line">  (setq google-java-format-executable "/path/to/google-java-format")
+</span><span class="code-line">    (add-hook 'java-mode-hook (lambda ()
+</span><span class="code-line">                              (add-hook 'before-save-hook 'google-java-format-buffer nil t)
+</span><span class="code-line">                              (global-set-key (kbd "C-c SPC") 'google-java-format)))
+</span></code></pre></div>
+<p>配置了保存时自动格式化，并绑定了一个快捷键。</p>
+<p>Emacs 编辑器在 <code>java-mode</code> 的缩进可能是 4，为了让写代码的时候更舒服一点，如果不想全局配置，可以将如下配置写入项目根目录的 <code>.dir-locals.el</code> 文件：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">((java-mode
+</span><span class="code-line">  (c-basic-offset . 2)
+</span><span class="code-line">  (tab-width . 2)
+</span><span class="code-line">  (indent-tabs-mode . nil)))
+</span></code></pre></div>
+<h3>Native Image 编译</h3>
+<p>前面直接使用 Java 执行 jar 文件，会明显感觉到延迟。如果在意的话，可以使用 <a href="https://www.graalvm.org/22.1/reference-manual/native-image/">Native Image</a> 编译。</p>
+<p>安装 GraalVM 后将其配置到 <code>JAVA_HOME</code>，并执行 <code>gu install native-image</code> 来安装 <code>Native Image</code>。</p>
+<p>然后下载 google-java-format 源码并编译：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">git clone git@github.com:google/google-java-format.git
+</span><span class="code-line">cd google-java-format
+</span><span class="code-line">mvn -Pnative -DskipTests package
+</span></code></pre></div>
+<p>编译完成后从 target 目录将 <code>google-java-format</code> 可执行文件复制到合适的路径，配置到编辑器中即可。为了适配不同的环境，我将 MacOS 上编译的文件命名为 google-java-format.macos，还是用脚本启动。</p>
+<p>脚本大体是这个样子：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">#!/bin/bash
+</span><span class="code-line">
+</span><span class="code-line"># export JAVA_HOME=...
+</span><span class="code-line">export BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &#x26;&#x26; pwd )"
+</span><span class="code-line">
+</span><span class="code-line">if [ $(uname) == 'Darwin' ];
+</span><span class="code-line">then
+</span><span class="code-line">    ${BASE_DIR}/google-java-format.macos "$@"
+</span><span class="code-line">else
+</span><span class="code-line">    exec "${JAVA_HOME}/bin/java" -jar "${BASE_DIR}/google-java-format-1.15.0-all-deps.jar" "$@"
+</span><span class="code-line">fi
+</span></code></pre></div>
+<p>可以明显感受到命令执行速度的提升。</p>]]></content:encoded></item>
+<item><title>用 github.dev 写博客</title><description>用 github.dev 配合 github actions 写博客，支持在在线编辑，自动发布</description><link>https://blakat.cc/write-blog-with-github-dev/</link><guid>https://blakat.cc/write-blog-with-github-dev/</guid><pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate><content:encoded><![CDATA[<p>上回说到可以 <a href="https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md">用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布</a>，最近出了个 github.dev，这么一来写博客就更方便了。</p>
+<h3>上回文章在这里看</h3>
+<p><a href="https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/">https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</a></p>
+<p><a href="https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md">https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md</a></p>
+<h3>这次使用 github.dev 写</h3>
+<p>之前 <a href="https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md#%E4%BB%8E%E7%BD%91%E9%A1%B5%E5%8F%91%E5%B8%83">从网页发布</a> 一节提到：</p>
+<blockquote>
+<p>到仓库页面 <a href="https://github.com/liuchong/myblog/tree/master/content/blog">https://github.com/liuchong/myblog/tree/master/content/blog</a> 点击 <strong>Add file -> Create new file</strong> 然后填入 <code>my-title/index.md</code>，写就行了。</p>
+</blockquote>
+<p>现在可以直接访问 <a href="https://github.dev/liuchong/myblog">https://github.dev/liuchong/myblog</a> 然后在 content/blog 下面新建一个目录比如 <a href="https://github.com/liuchong/myblog/tree/master/content/blog/write-blog-with-github-dev">write-blog-with-github-dev</a>，再创建一个 index.md，开始写就好了。跟普通编辑器一样，可以打开多个文件，可以预览 markdown。在浏览器里写东西总感觉不放心，好像一不小心就会丢了似的，实际上不用担心：打开的文件标签可以关闭重新打开，浏览器标签可以关闭甚至浏览器也可以整个关闭然后重新打开，文章是不会丢失的。</p>
+<p>写完切换到源代码管理标签，提交就行了，之前我们有设置好的发布工作流，运行完就可以看到文章了。</p>
+<p>比如这篇就是这样写的，也不是特别有用不过还行，特定场景下还是会有些作用的罢。</p>]]></content:encoded></item>
+<item><title>用 gatsby 和 github workflow 写博客</title><description>用 gatsby 和 github workflow 写博客，支持在在线编辑，自动发布</description><link>https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</link><guid>https://blakat.cc/write-and-publish-blog-with-gatsby-and-github-workflow/</guid><pubDate>Thu, 17 Dec 2020 00:00:00 GMT</pubDate><content:encoded><![CDATA[<p>这里是本<a href="/">博客</a>的<a href="https://github.com/liuchong/myblog">仓库</a>。</p>
+<p>之前用的也是 <a href="https://www.gatsbyjs.com/">gatsby</a>，自己改出来了一个 <a href="https://github.com/liuchong/gatsby-starter-blog-typescript">gatsby-starter-blog-typescript</a>，但已经年久失修不想维护了。
+于是直接把博客的清空了仓库，更新到最新的官方模板 <a href="https://github.com/gatsbyjs/gatsby-starter-blog">gatsby-starter-blog</a>。</p>
+<h3>安装 gatsby</h3>
+<p>详细过程可以参考官方文档 <a href="https://www.gatsbyjs.com/tutorial/">https://www.gatsbyjs.com/tutorial/</a>，我这里有完整的环境，只需要运行命令：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">npm install -g gatsby-cli
+</span><span class="code-line">npx gatsby new myblog https://github.com/gatsbyjs/gatsby-starter-blog
+</span></code></pre></div>
+<p>运行完了，把一些文件里面按照需要改一下就可以使用了：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">content/assets/
+</span><span class="code-line">src/components/bio.js
+</span><span class="code-line">gatsby-config.js
+</span></code></pre></div>
+<p>预览一下：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">npx gatsby develop
+</span></code></pre></div>
+<p>执行完命令打开 <a href="http://localhost:8000/">http://localhost:8000/</a> 可以看到几个示范文章已经在那里了。</p>
+<p>我还在 <code>static</code> 目录放置了一些文件，它们会被原封不动的复制到网站目录。
+比如 <code>CNAME</code> 用来在 github pages 绑定域名，后面会发布后就可以用到。</p>
+<p>安装完后，可以创建一个 github 仓库，我这里就是 <code>myblog</code>，把代码提交后推到仓库里。</p>
+<h3>写文章</h3>
+<p>我们看到，在 <code>content/blog/</code> 有一些目录，里面分别有一个 index.md，这就是文章了。比如我们参观一下这个 <code>hello-world</code>：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">---
+</span><span class="code-line">title: Hello World
+</span><span class="code-line">date: "2015-05-01T22:12:03.284Z"
+</span><span class="code-line">description: "Hello World"
+</span><span class="code-line">---
+</span><span class="code-line">
+</span><span class="code-line">This is my first post on my new fake blog! How exciting!
+</span><span class="code-line">... 此处省略很多字
+</span></code></pre></div>
+<p>现在这些展示文章的任务就圆满完成了，我们愿意的话可以把它们删除。然后比着它们的格式，打开咱喜欢的编辑器，写起来吧！</p>
+<p>安装一个工具 <code>gh-pages</code> 尝试发布一下，进行观赏：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">npm install --save-dev gh-pages
+</span><span class="code-line">npx gh-pages -b public -d public -r https://github.com/liuchong/myblog.git
+</span></code></pre></div>
+<p>上面命令用 gh-pages 工具把 public 目录发到了 public 分支，更详细可参考 <a href="https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/">https://www.gatsbyjs.com/docs/how-gatsby-works-with-github-pages/</a>。
+在项目设置里面设置 github pages 分支，点击显示出来的那个链接博客就出来了。</p>
+<p>到目前为止，还不错是吧！</p>
+<h3>设置 workflow</h3>
+<p>你看，写完有一步发布过程，挺麻烦的；而且什么时候没有环境或者甚至只有一个浏览器，那就发布不了了。</p>
+<p>幸亏有 github actions，用上它就方便多了。</p>
+<p>我直接把 workflow 配置文件 <code>.github/workflows/publish.yml</code> 贴到这里，假设源码提交到了 <code>master</code> 分支：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">name: Publish
+</span><span class="code-line">
+</span><span class="code-line">on:
+</span><span class="code-line">  push:
+</span><span class="code-line">    branches:
+</span><span class="code-line">      - master
+</span><span class="code-line">
+</span><span class="code-line">jobs:
+</span><span class="code-line">  build:
+</span><span class="code-line">    runs-on: ubuntu-latest
+</span><span class="code-line">    steps:
+</span><span class="code-line">      - uses: actions/checkout@v1
+</span><span class="code-line">      - name: Publish
+</span><span class="code-line">        run: |
+</span><span class="code-line">          git config user.email ${{github.actor}}@users.noreply.github.com
+</span><span class="code-line">          git config user.name ${{github.actor}}
+</span><span class="code-line">          npm install
+</span><span class="code-line">          npx gatsby build
+</span><span class="code-line">          npx gh-pages -b public -d public -r https://${{ secrets.PUBLISH }}@github.com/${{ github.repository }}
+</span></code></pre></div>
+<p>要注意的是 <code>secrets.PUBLISH</code> 这个要手动在 <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> 创建 token，
+然后再到项目里面，比如我就是在 <a href="https://github.com/liuchong/myblog/settings/secrets/actions">https://github.com/liuchong/myblog/settings/secrets/actions</a>，添加一个 secrets 项，
+<code>Name</code>那项就填的 <code>PUBLISH</code>。</p>
+<p>说明一下，这个链接 <a href="https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow">https://docs.github.com/cn/free-pro-team@latest/actions/reference/authentication-in-a-workflow</a> 上面还有个 <code>secrets.GITHUB_TOKEN</code>，
+说是自动创建的，不过我没有使用成功。</p>
+<p>如果发布有问题，可以试着手动执行一下命令测试，注意 <code>***</code> 改成自己的 secret：</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">gh-pages -b public -d public -r https://***@github.com/liuchong/myblog.git
+</span></code></pre></div>
+<h3>从网页发布</h3>
+<p>到仓库页面 <a href="https://github.com/liuchong/myblog/tree/master/content/blog">https://github.com/liuchong/myblog/tree/master/content/blog</a> 点击 <strong>Add file -> Create new file</strong> 然后填入 <code>my-title/index.md</code>，写就行了。</p>
+<p>我这篇博客就是在网页上面写的，其中 <code>date</code> 条目我手工写的，所以简化了一下，像 <code>date: "2020-12-17"</code> 这样也是可以的，不用那么精确。</p>
+<p>不太推荐直接在网页上面写，我写完后点击了一下 preview，又点回编辑界面时失败了一下，还以为文章没了，有点吓人 👀</p>]]></content:encoded></item>
+<item><title>simple snowflake in go and rust</title><description>https://github.com/liuchong/sf &amp; https://github.com/liuchong/fid</description><link>https://blakat.cc/simple-snowflake-in-go-and-rust/</link><guid>https://blakat.cc/simple-snowflake-in-go-and-rust/</guid><pubDate>Sat, 16 Mar 2019 17:39:21 GMT</pubDate><content:encoded><![CDATA[<p><a href="https://github.com/liuchong/sf">https://github.com/liuchong/sf</a></p>
+<p><a href="https://github.com/liuchong/fid">https://github.com/liuchong/fid</a></p>]]></content:encoded></item>
+<item><title>rewrite blockchain tutorial in rust</title><description>简单重写了个 Rust 版的 blockchain-tuorial，代码不是太严谨</description><link>https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</link><guid>https://blakat.cc/rewrite-blockchain-tutorial-in-rust/</guid><pubDate>Wed, 06 Mar 2019 04:44:30 GMT</pubDate><content:encoded><![CDATA[<h1>简单重写了个 Rust 版的 blockchain-tuorial</h1>
+<p>看了篇文章</p>
+<blockquote>
+<p><a href="https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc">https://medium.com/@mycoralhealth/code-your-own-blockchain-in-less-than-200-lines-of-go-e296282bcffc</a></p>
+</blockquote>
+<blockquote>
+<p><a href="https://github.com/mycoralhealth/blockchain-tutorial">https://github.com/mycoralhealth/blockchain-tutorial</a></p>
+</blockquote>
+<p>想着没几行代码，就用 Rust 简单写了下，写得不是多严谨。</p>
+<p>我的代码在
+<a href="https://github.com/liuchong/blockchain-tutorial" target="_blank"><img src="/images/bomb.png" alt="@liuchong/blockchain-tutorial" width="32" height="32" align="bottom"></a></p>]]></content:encoded></item>
+<item><title>写一个第三方 cargo 子命令</title><description>写一个 cargo 子命令，把 shell 命令存到配置文件里面</description><link>https://blakat.cc/write-a-third-party-cargo-subcommand/</link><guid>https://blakat.cc/write-a-third-party-cargo-subcommand/</guid><pubDate>Tue, 18 Dec 2018 13:26:11 GMT</pubDate><content:encoded><![CDATA[<p>写项目的时候，有时候会写一些较长的 shell 命令，反复输入不方便，也容易丢失，就想着把它放到配置文件里。</p>
+<p>阅读了 cargo 官方 <a href="https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommands">wiki</a></p>
+<p>阅读了 cargo 官方 <a href="https://doc.rust-lang.org/cargo/reference/external-tools.html">reference</a></p>
+<p>观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls、rustfmt 等命令，是可以直接运行的，还有一些 cargo- 开头的命令，比如 cargo-clippy、cargo-fmt，就是运行 cargo clippy、cargo fmt 等命令时执行的程序。</p>
+<p>试一下，</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">cd ~/.cargo/bin/
+</span><span class="code-line">ln -s racer cargo-racer
+</span><span class="code-line">cargo racer
+</span></code></pre></div>
+<p>输出比较不是很正常，看上去是把字符串“racer”当做参数传给了命令 racer，不过也对刚才的调查做了简单证实。</p>
+<div class="gatsby-highlight"><pre><code class="code-highlight"><span class="code-line">error: Found argument 'racer' which wasn't expected, or isn't valid in this context
+</span><span class="code-line">
+</span><span class="code-line">USAGE:
+</span><span class="code-line">...
+</span></code></pre></div>
+<h4>编码</h4>
+<ol>
+<li>创建项目 cargo new cargo-x</li>
+<li>写代码</li>
+<li>发布项目 cargo publish</li>
+</ol>
+<h4>仓库</h4>
+<p>写了一个非常简单的版本，代码在
+<a href="https://github.com/liuchong/cargo-x" target="_blank"><img src="/images/bomb.png" alt="@liuchong/cargo-x" width="32" height="32" align="bottom"></a></p>]]></content:encoded></item>
+<item><title>ngrok tunnels example</title><description>created an example repository of simple ngrok tunnels.</description><link>https://blakat.cc/ngrok-tunnels-example/</link><guid>https://blakat.cc/ngrok-tunnels-example/</guid><pubDate>Tue, 10 Jul 2018 13:16:55 GMT</pubDate><content:encoded><![CDATA[<p>Created an example repository of simple ngrok tunnels on github:
+<a href="https://github.com/liuchong/ngrok-tunnels-example">ngrok-tunnels-example</a></p>
+<p>Note:<br>
+Maybe <a href="https://github.com/fatedier/frp">frp</a> is a better choice.</p>]]></content:encoded></item>
+<item><title>nginx router example</title><description>created an example repository of simple dynamic routing application to show the usage of openresty.</description><link>https://blakat.cc/nginx-router-example/</link><guid>https://blakat.cc/nginx-router-example/</guid><pubDate>Mon, 06 Mar 2017 01:33:15 GMT</pubDate><content:encoded><![CDATA[<p>Created an example repository of simple dynamic routing application to show the usage of openresty on github:
+<a href="https://github.com/liuchong/ngx-router-example">ngx-router-example</a></p>]]></content:encoded></item>
+</channel>
+</rss>
