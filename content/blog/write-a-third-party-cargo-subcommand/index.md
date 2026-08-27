@@ -13,6 +13,7 @@ description: "写一个 cargo 子命令，把 shell 命令存到配置文件里�
 观察目录 ~/.cargo/bin/ 下面的文件，发现一些比如 racer、rls、rustfmt 等命令，是可以直接运行的，还有一些 cargo- 开头的命令，比如 cargo-clippy、cargo-fmt，就是运行 cargo clippy、cargo fmt 等命令时执行的程序。
 
 试一下，
+
 ```
 cd ~/.cargo/bin/
 ln -s racer cargo-racer
@@ -20,6 +21,7 @@ cargo racer
 ```
 
 输出比较不是很正常，看上去是把字符串“racer”当做参数传给了命令 racer，不过也对刚才的调查做了简单证实。
+
 ```
 error: Found argument 'racer' which wasn't expected, or isn't valid in this context
 

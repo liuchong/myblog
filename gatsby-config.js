@@ -12,9 +12,9 @@ module.exports = {
     title: `黑貓博客`,
     author: {
       name: `刘冲`,
-      summary: `who lives and works building things.`,
+      summary: `写代码，也写一点关于代码和生活的东西。`,
     },
-    description: ` 一个博客。`,
+    description: `刘冲的个人博客。`,
     siteUrl: `https://blakat.cc/`,
     social: {
       weibo: `liuchong`,
@@ -103,7 +103,7 @@ module.exports = {
               }
             }`,
             output: "/rss.xml",
-            title: "Gatsby Starter Blog RSS Feed",
+            title: "黑貓博客 RSS Feed",
           },
         ],
       },

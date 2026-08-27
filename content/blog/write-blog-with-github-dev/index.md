@@ -15,6 +15,7 @@ https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-bl
 ### 这次使用 github.dev 写
 
 之前 [从网页发布](https://github.com/liuchong/myblog/blob/master/content/blog/write-and-publish-blog-with-gatsby-and-github-workflow/index.md#%E4%BB%8E%E7%BD%91%E9%A1%B5%E5%8F%91%E5%B8%83) 一节提到：
+
 > 到仓库页面 <https://github.com/liuchong/myblog/tree/master/content/blog> 点击 **Add file -> Create new file** 然后填入 `my-title/index.md`，写就行了。
 
 现在可以直接访问 https://github.dev/liuchong/myblog 然后在 content/blog 下面新建一个目录比如 [write-blog-with-github-dev](https://github.com/liuchong/myblog/tree/master/content/blog/write-blog-with-github-dev)，再创建一个 index.md，开始写就好了。跟普通编辑器一样，可以打开多个文件，可以预览 markdown。在浏览器里写东西总感觉不放心，好像一不小心就会丢了似的，实际上不用担心：打开的文件标签可以关闭重新打开，浏览器标签可以关闭甚至浏览器也可以整个关闭然后重新打开，文章是不会丢失的。
