@@ -54,11 +54,12 @@ typings/
 # dotenv environment variable files
 .env*
 
-# gatsby files
+# Generated files
 .cache/
 public
 dist
 .blog-build
+.saos-build
 
 # Mac files
 .DS_Store

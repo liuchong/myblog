@@ -1,12 +1,12 @@
 {
-  "name": "myblog",
+  "name": "saos",
   "private": true,
   "type": "module",
-  "description": "刘冲的个人博客，基于 Vite、React 和 Markdown 构建。",
+  "description": "A source-first, self-building React blog for GitHub Actions.",
   "version": "0.1.0",
   "author": "刘冲",
   "bugs": {
-    "url": "https://github.com/liuchong/myblog/issues"
+    "url": "https://github.com/liuchong/saos/issues"
   },
   "dependencies": {
     "@mdx-js/mdx": "^3.1.1",
@@ -27,12 +27,13 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.0",
-    "gh-pages": "^6.3.0",
     "prettier": "^3.3.2"
   },
-  "homepage": "https://blakat.cc/",
+  "homepage": "https://github.com/liuchong/saos",
   "keywords": [
     "blog",
+    "github-action",
+    "static-site-generator",
     "vite",
     "react",
     "markdown"
@@ -40,16 +41,16 @@
   "license": "0BSD",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/liuchong/myblog.git"
+    "url": "git+https://github.com/liuchong/saos.git"
   },
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "develop": "node scripts/prepare-data.mjs && vite --host 127.0.0.1",
+    "build": "node scripts/cli.mjs build --workspace examples/basic",
+    "develop": "node scripts/cli.mjs develop --workspace examples/basic",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "vite preview --host 127.0.0.1",
-    "clean": "node scripts/clean.mjs",
-    "test": "npm run format:check"
+    "clean": "node scripts/cli.mjs clean --workspace examples/basic",
+    "test": "node --test --test-concurrency=1 && npm run format:check"
   }
 }

@@ -1,0 +1,154 @@
+# SAOS
+
+**Sites Are Open Source.**
+
+> 网站可以简单，但一定要骚。
+
+SAOS is a source-first React blog generator packaged as a GitHub Action. It
+builds Markdown and MDX from your repository with its own Vite and React source,
+then produces a static site ready for GitHub Pages.
+
+It is deliberately not a sealed blog product. Reference the Action when the
+defaults fit; fork the repository and edit the renderer, components, CSS, or
+build pipeline when they do not. The source is the product.
+
+## Use It
+
+Keep content and configuration in a `site` branch, then add
+`.github/workflows/publish.yml`:
+
+```yaml
+name: Publish site
+
+on:
+  push:
+    branches: [site]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: liuchong/saos@master
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+```
+
+The workflow consumes `content/blog`, `saos.config.mjs`, and `static` by
+default. Pin a release tag instead of `master` after releases are available.
+
+## Write
+
+Each post can be a Markdown or MDX file. A folder with `index.md` keeps local
+images and downloads beside the article:
+
+```text
+content/blog/
+  hello/
+    index.md
+    diagram.png
+```
+
+```markdown
+---
+title: Hello, source
+date: 2026-08-27
+description: The first post.
+---
+
+The rest is Markdown.
+```
+
+Direct files such as `content/blog/hello.mdx` are supported too. Set
+`draft: true` in frontmatter to omit a post from production builds.
+
+## Configure
+
+`saos.config.mjs` exports a plain object:
+
+```js
+export default {
+  title: "My Blog",
+  description: "Notes from the source.",
+  siteUrl: "https://example.com",
+  language: "en",
+  author: {
+    name: "Ada",
+    summary: "writes programs and prose.",
+    avatar: "/images/avatar.png",
+    link: { label: "GitHub", href: "https://github.com/ada" },
+  },
+  comments: {
+    provider: "giscus",
+    repo: "ada/blog",
+    repoId: "...",
+    category: "Comments",
+    categoryId: "...",
+  },
+}
+```
+
+Giscus comments are optional. When configured, SAOS maps each page pathname to
+its discussion and keeps the comment thread attached to the article.
+
+## Action Inputs
+
+| Input          | Default             | Purpose                                |
+| -------------- | ------------------- | -------------------------------------- |
+| `content`      | `content/blog`      | Markdown and MDX directory             |
+| `config`       | `saos.config.mjs`   | Site configuration module              |
+| `public`       | `static`            | Static files copied to the output root |
+| `output`       | `dist`              | Generated site directory               |
+| `base`         | config value or `/` | URL prefix for Project Pages           |
+| `node-version` | `22`                | Node.js version used by the Action     |
+
+The Action outputs `output-path` and `post-count`.
+
+## Develop The Source
+
+```bash
+npm ci
+npm run develop
+npm test
+npm run build
+```
+
+The bundled example lives in `examples/basic`. To work against another content
+repository, point the CLI at its checkout:
+
+```bash
+node scripts/cli.mjs develop --workspace ../my-site
+node scripts/cli.mjs build --workspace ../my-site
+```
+
+The build recursively discovers Markdown and MDX, renders React on the server,
+hydrates the generated pages in the browser, copies article-local assets, and
+writes RSS and a web manifest. Nothing prevents replacing any part of that
+pipeline; all implementation source ships with the Action.
+
+## License
+
+[0BSD](LICENSE)

@@ -1,0 +1,32 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - name: Build through the local Action
+        uses: ./
+        with:
+          content: examples/basic/content/blog
+          config: examples/basic/saos.config.mjs
+          public: examples/basic/static
+          output: .saos-action-test
+      - name: Verify generated output
+        shell: bash
+        run: test -f .saos-action-test/index.html

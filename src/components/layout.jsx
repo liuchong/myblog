@@ -1,18 +1,21 @@
 import * as React from "react"
 
-const Layout = ({ pathname, title, children }) => {
+import { withBasePath } from "../path-utils.js"
+
+const Layout = ({ pathname, site, title, children }) => {
   const isRootPath = pathname === "/"
+  const homeUrl = withBasePath("/", site?.basePath)
   let header
 
   if (isRootPath) {
     header = (
       <h1 className="main-heading">
-        <a href="/">{title}</a>
+        <a href={homeUrl}>{title}</a>
       </h1>
     )
   } else {
     header = (
-      <a className="header-link-home" href="/">
+      <a className="header-link-home" href={homeUrl}>
         {title}
       </a>
     )
@@ -22,11 +25,13 @@ const Layout = ({ pathname, title, children }) => {
     <div className="global-wrapper" data-is-root-path={isRootPath}>
       <header className="global-header">{header}</header>
       <main>{children}</main>
-      <footer>
-        © {new Date().getFullYear()}, Built with
-        {` `}
-        <a href="https://vite.dev">Vite</a>
-      </footer>
+      {site?.footer !== false && (
+        <footer>
+          © {new Date().getFullYear()}, Built with
+          {` `}
+          <a href={site?.footer?.href}>{site?.footer?.label || "SAOS"}</a>
+        </footer>
+      )}
     </div>
   )
 }

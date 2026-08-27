@@ -1,6 +1,6 @@
 import fs from "node:fs/promises"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
+import { pathToFileURL } from "node:url"
 
 import { compile, run } from "@mdx-js/mdx"
 import * as runtime from "react/jsx-runtime"
@@ -14,16 +14,7 @@ import remarkRehype from "remark-rehype"
 import { unified } from "unified"
 import { parse as parseYaml } from "yaml"
 
-import { siteMetadata } from "../src/site-metadata.js"
-
-export const rootDir = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-)
-
-export const buildDir = path.join(rootDir, ".blog-build")
-export const dataPath = path.join(buildDir, "data.json")
-export const distDir = path.join(rootDir, "dist")
+import { normalizeBasePath } from "../src/path-utils.js"
 
 const monthNames = [
   "January",
@@ -40,6 +31,33 @@ const monthNames = [
   "December",
 ]
 
+export const defaultSiteConfig = {
+  title: "SAOS Blog",
+  description: "A source-first blog.",
+  siteUrl: "",
+  basePath: "/",
+  language: "en",
+  author: {
+    name: "",
+    summary: "",
+    avatar: "",
+    avatarAlt: "Profile picture",
+    link: null,
+  },
+  comments: null,
+  footer: {
+    label: "SAOS",
+    href: "https://github.com/liuchong/saos",
+  },
+  rss: {},
+  manifest: {
+    shortName: "SAOS",
+    backgroundColor: "#ffffff",
+    display: "minimal-ui",
+    icons: [],
+  },
+}
+
 const escapeHtml = value =>
   String(value)
     .replaceAll("&", "&amp;")
@@ -48,9 +66,10 @@ const escapeHtml = value =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;")
 
-const normalizeSlug = value => `/${value.replace(/^\/+|\/+$/g, "")}/`
+export const normalizeSlug = value =>
+  `/${String(value).replace(/^\/+|\/+$/g, "")}/`
 
-const parseMarkdownFile = source => {
+export const parseMarkdownFile = source => {
   const match = source.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/)
 
   if (!match) {
@@ -78,7 +97,7 @@ const formatDisplayDate = value => {
   return `${monthNames[Number(month) - 1]} ${day}, ${year}`
 }
 
-const createExcerpt = markdown => {
+export const createExcerpt = markdown => {
   const text = markdown
     .replace(/```[\s\S]*?```/g, "")
     .replace(/<[^>]+>/g, "")
@@ -109,14 +128,14 @@ const wrapCodeBlocks = () => tree => {
       visit(child)
 
       if (child.type === "element" && child.tagName === "pre") {
-        if (hasClassName(node, "gatsby-highlight")) {
+        if (hasClassName(node, "saos-highlight")) {
           return child
         }
 
         return {
           type: "element",
           tagName: "div",
-          properties: { className: ["gatsby-highlight"] },
+          properties: { className: ["saos-highlight"] },
           children: [child],
         }
       }
@@ -148,7 +167,6 @@ const mdxToHtml = async mdx => {
       outputFormat: "function-body",
       remarkPlugins: [remarkGfm],
       rehypePlugins: [
-        rehypeRaw,
         [rehypePrism, { ignoreMissing: true }],
         wrapCodeBlocks,
       ],
@@ -159,102 +177,191 @@ const mdxToHtml = async mdx => {
   return renderToStaticMarkup(runtime.jsx(MdxContent, {}))
 }
 
-const getPostFile = async dirName => {
-  const postDir = path.join(rootDir, "content", "blog", dirName)
-  const candidates = ["index.md", "index.mdx"]
+const mergeSiteConfig = raw => ({
+  ...defaultSiteConfig,
+  ...raw,
+  author: {
+    ...defaultSiteConfig.author,
+    ...(raw.author || {}),
+  },
+  footer:
+    raw.footer === false
+      ? false
+      : {
+          ...defaultSiteConfig.footer,
+          ...(raw.footer || {}),
+        },
+  rss: raw.rss === false ? false : { ...(raw.rss || {}) },
+  manifest:
+    raw.manifest === false
+      ? false
+      : {
+          ...defaultSiteConfig.manifest,
+          ...(raw.manifest || {}),
+        },
+  basePath: normalizeBasePath(raw.basePath || defaultSiteConfig.basePath),
+})
 
-  for (const candidate of candidates) {
-    const filePath = path.join(postDir, candidate)
+export const loadSiteConfig = async ({ configPath, basePath } = {}) => {
+  let raw = {}
 
+  if (configPath) {
     try {
-      await fs.access(filePath)
-      return {
-        filePath,
-        isMdx: candidate.endsWith(".mdx"),
+      await fs.access(configPath)
+      const moduleUrl = `${pathToFileURL(configPath).href}?${Date.now()}`
+      const loaded = await import(moduleUrl)
+      raw = loaded.default || loaded.site || {}
+    } catch (error) {
+      if (error.code !== "ENOENT") {
+        throw error
       }
-    } catch {}
+    }
   }
 
-  return null
+  if (basePath) {
+    raw = { ...raw, basePath }
+  }
+
+  return mergeSiteConfig(raw)
 }
 
-export const loadSiteData = async () => {
-  const blogDir = path.join(rootDir, "content", "blog")
-  const entries = await fs.readdir(blogDir, { withFileTypes: true })
-  const postDirs = entries
-    .filter(entry => entry.isDirectory())
-    .map(entry => entry.name)
-    .sort()
+const walkMarkdownFiles = async directory => {
+  const entries = await fs.readdir(directory, { withFileTypes: true })
+  const files = await Promise.all(
+    entries
+      .filter(entry => !entry.name.startsWith("."))
+      .map(async entry => {
+        const entryPath = path.join(directory, entry.name)
 
+        if (entry.isDirectory()) {
+          return walkMarkdownFiles(entryPath)
+        }
+
+        return /\.mdx?$/i.test(entry.name) ? [entryPath] : []
+      }),
+  )
+
+  return files.flat().sort()
+}
+
+const getDefaultSlug = (contentDir, filePath) => {
+  const relative = path.relative(contentDir, filePath)
+  const parsed = path.parse(relative)
+  const parts =
+    parsed.name === "index" ? parsed.dir : path.join(parsed.dir, parsed.name)
+  return normalizeSlug(parts.split(path.sep).join("/"))
+}
+
+const parsePostDate = (value, relativePath) => {
+  if (!value) {
+    throw new Error(`${relativePath}: frontmatter field "date" is required`)
+  }
+
+  const date = value instanceof Date ? value : new Date(String(value))
+
+  if (Number.isNaN(date.getTime())) {
+    throw new Error(`${relativePath}: invalid frontmatter date "${value}"`)
+  }
+
+  return date
+}
+
+export const loadSiteData = async ({ contentDir, site }) => {
+  const postFiles = await walkMarkdownFiles(contentDir)
   const posts = await Promise.all(
-    postDirs.map(async dirName => {
-      const postFile = await getPostFile(dirName)
+    postFiles.map(async filePath => {
+      const relativePath = path.relative(contentDir, filePath)
+      const source = await fs.readFile(filePath, "utf8")
+      const parsed = parseMarkdownFile(source)
 
-      if (!postFile) {
+      if (parsed.data.draft === true) {
         return null
       }
 
-      const source = await fs.readFile(postFile.filePath, "utf8")
-      const parsed = parseMarkdownFile(source)
-      const slug = normalizeSlug(dirName)
+      const slug = parsed.data.slug
+        ? normalizeSlug(parsed.data.slug)
+        : getDefaultSlug(contentDir, filePath)
       const title = parsed.data.title || slug
-      const rawDate = parsed.data.date || ""
+      const date = parsePostDate(parsed.data.date, relativePath)
       const description = parsed.data.description || ""
 
       return {
         slug,
         title,
-        date: formatDisplayDate(rawDate),
-        dateISO:
-          rawDate instanceof Date
-            ? rawDate.toISOString()
-            : new Date(String(rawDate)).toISOString(),
+        date: formatDisplayDate(date),
+        dateISO: date.toISOString(),
         description,
         excerpt: escapeHtml(description || createExcerpt(parsed.content)),
-        html: postFile.isMdx
+        html: filePath.endsWith(".mdx")
           ? await mdxToHtml(parsed.content)
           : await markdownToHtml(parsed.content),
       }
     }),
   )
 
-  const postsAscending = posts.filter(Boolean).sort(
-    (left, right) => new Date(left.dateISO) - new Date(right.dateISO),
-  )
+  const postsAscending = posts
+    .filter(Boolean)
+    .sort((left, right) => new Date(left.dateISO) - new Date(right.dateISO))
+  const seenSlugs = new Set()
 
   postsAscending.forEach((post, index) => {
+    if (seenSlugs.has(post.slug)) {
+      throw new Error(`Duplicate post slug: ${post.slug}`)
+    }
+
+    seenSlugs.add(post.slug)
     post.previousSlug = postsAscending[index - 1]?.slug || null
     post.nextSlug = postsAscending[index + 1]?.slug || null
   })
 
-  const postsDescending = [...postsAscending].sort(
-    (left, right) => new Date(right.dateISO) - new Date(left.dateISO),
-  )
-
+  const postsDescending = [...postsAscending].reverse()
   const postsBySlug = Object.fromEntries(
     postsAscending.map(post => [post.slug, post]),
   )
 
   return {
-    site: siteMetadata,
+    site,
     posts: postsAscending,
     postsDescending,
     postsBySlug,
   }
 }
 
-export const writeSiteData = async siteData => {
+export const writeSiteData = async ({ buildDir, siteData }) => {
+  const dataPath = path.join(buildDir, "data.json")
   await fs.mkdir(buildDir, { recursive: true })
-  await fs.writeFile(`${dataPath}.tmp`, `${JSON.stringify(siteData, null, 2)}\n`)
+  await fs.writeFile(
+    `${dataPath}.tmp`,
+    `${JSON.stringify(siteData, null, 2)}\n`,
+  )
   await fs.rename(`${dataPath}.tmp`, dataPath)
+  return dataPath
 }
 
-export const copyDirectory = async (from, to) => {
+export const copyDirectory = async (from, to, options = {}) => {
+  if (!from) {
+    return
+  }
+
   try {
     await fs.access(from)
   } catch {
     return
   }
 
-  await fs.cp(from, to, { recursive: true })
+  await fs.cp(from, to, {
+    recursive: true,
+    filter: source =>
+      path.basename(source) !== ".DS_Store" &&
+      (options.filter ? options.filter(source) : true),
+  })
+}
+
+export const copyContentAssets = async (contentDir, outputDir) => {
+  await copyDirectory(contentDir, outputDir, {
+    filter: source => {
+      const extension = path.extname(source).toLowerCase()
+      return extension !== ".md" && extension !== ".mdx"
+    },
+  })
 }

@@ -12,12 +12,16 @@ import { App, resolvePage } from "./App"
 const element = document.getElementById("root")
 
 const getPage = async () => {
-  if (window.__BLOG_PAGE_DATA__) {
-    return window.__BLOG_PAGE_DATA__
+  if (window.__SAOS_PAGE_DATA__) {
+    return window.__SAOS_PAGE_DATA__
   }
 
-  const { default: siteData } = await import("../.blog-build/data.json")
-  return resolvePage(window.location.pathname, siteData)
+  if (import.meta.env.DEV) {
+    const { default: siteData } = await import("../.saos-build/data.json")
+    return resolvePage(window.location.pathname, siteData)
+  }
+
+  throw new Error("SAOS page data is missing")
 }
 
 const render = async () => {

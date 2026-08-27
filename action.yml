@@ -1,0 +1,67 @@
+name: SAOS Blog
+description: Build a source-first React blog from Markdown or MDX.
+author: Liu Chong
+
+branding:
+  icon: book-open
+  color: gray-dark
+
+inputs:
+  content:
+    description: Markdown or MDX content directory, relative to the workspace.
+    required: false
+    default: content/blog
+  config:
+    description: Site configuration module, relative to the workspace.
+    required: false
+    default: saos.config.mjs
+  public:
+    description: Static asset directory, relative to the workspace.
+    required: false
+    default: static
+  output:
+    description: Generated site directory, relative to the workspace.
+    required: false
+    default: dist
+  base:
+    description: Optional URL base path override, such as /repository/.
+    required: false
+    default: ""
+  node-version:
+    description: Node.js version used to build the site.
+    required: false
+    default: "22"
+
+outputs:
+  output-path:
+    description: Absolute path to the generated site.
+    value: ${{ steps.build.outputs.output-path }}
+  post-count:
+    description: Number of published posts in the generated site.
+    value: ${{ steps.build.outputs.post-count }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+        cache-dependency-path: ${{ github.action_path }}/package-lock.json
+
+    - name: Install SAOS
+      shell: bash
+      run: npm ci --ignore-scripts --no-audit --no-fund --prefix "$GITHUB_ACTION_PATH"
+
+    - name: Build site
+      id: build
+      shell: bash
+      env:
+        SAOS_WORKSPACE: ${{ github.workspace }}
+        SAOS_CONTENT: ${{ inputs.content }}
+        SAOS_CONFIG: ${{ inputs.config }}
+        SAOS_PUBLIC: ${{ inputs.public }}
+        SAOS_OUTPUT: ${{ inputs.output }}
+        SAOS_BASE: ${{ inputs.base }}
+      run: node "$GITHUB_ACTION_PATH/action/run.mjs"
